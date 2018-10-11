@@ -48,6 +48,7 @@ export default class Header extends React.Component {
                 </Link> 
                 </div>
                 :
+                <div style={{ display: 'inherit' }}>
                 <Link to="/profile" className="item">
                     <Menu.Item
                         name='profile'
@@ -58,6 +59,16 @@ export default class Header extends React.Component {
                         Profile
                     </Menu.Item>
                 </Link>
+                <Menu.Item
+                    
+                    name='logout'
+                    // position='right'
+                    active={activeItem === 'logout'}
+                    onClick={this.handleItemClick}
+                >
+                    <span onClick={() => this.props.logout()}>Logout</span>
+                </Menu.Item>
+                </div>
 
                 }
             </Menu>
