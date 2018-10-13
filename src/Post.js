@@ -1,5 +1,6 @@
 import React from 'react'
-
+import { Card } from 'semantic-ui-react'
+import Comment from './Comment'
 class Post extends React.Component {
     constructor(props) {
         super(props)
@@ -9,7 +10,9 @@ class Post extends React.Component {
         debugger
         return (
             <div>
-                {this.props.post.title}
+                <h1>{this.props.post.title}</h1>
+                {this.props.post.comments.map(comment => 
+                <Comment comment={comment}/>)}
             </div>
         )
     }

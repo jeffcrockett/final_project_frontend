@@ -1,5 +1,5 @@
 import React from 'react' 
-
+import { Card } from 'semantic-ui-react'
 export default class Comment extends React.Component {
     constructor(props) {
         super(props)
@@ -19,21 +19,25 @@ export default class Comment extends React.Component {
 
     render() {
         return (
-            <table>
-                <tr>
-                    <td>votes</td>
-                    <td>username</td>
-                    <td>time submitted</td>
-                </tr>
-                <tr>
-                    <td colSpan={3}>
-                    {this.props.comment.content}
-                    {this.props.comment.replies ? 
-                    <div>
-                    {this.props.comment.replies.map(comment => <Comment comment={comment}/>)}</div> : ''}
-                    </td>
-                </tr>
-            </table>
+            <Card
+                meta={this.props.comment.user.username}
+                description={this.props.comment.content}
+            />
+            // <table>
+            //     <tr>
+            //         <td>votes</td>
+            //         <td>username</td>
+            //         <td>time submitted</td>
+            //     </tr>
+            //     <tr>
+            //         <td colSpan={3}>
+            //         {this.props.comment.content}
+            //         {this.props.comment.replies ? 
+            //         <div>
+            //         {this.props.comment.replies.map(comment => <Comment comment={comment}/>)}</div> : ''}
+            //         </td>
+            //     </tr>
+            // </table>
         )
     }
 }
