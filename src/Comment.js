@@ -5,6 +5,10 @@ export default class Comment extends React.Component {
         super(props)
     }
 
+    state = {
+        editing: false
+    }
+
 
 
     componentDidMount() {

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Menu } from 'semantic-ui-react'
+import { Menu, Dropdown } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 
 export default class Header extends React.Component {
@@ -71,6 +71,20 @@ export default class Header extends React.Component {
                 </div>
 
                 }
+                <Menu.Item>
+                    <Dropdown text='Forums'>
+                        <Dropdown.Menu>
+                            {this.props.subforums.map(s => 
+                                <Link 
+                                onClick={() => this.props.setSubforum(s)}
+                                to={`/f/${s.name}`}>
+                                <Dropdown.Item text={s.name} />
+                                </Link>
+                            )}
+
+                        </Dropdown.Menu>
+                    </Dropdown>
+                    </Menu.Item>
             </Menu>
         )
     }
