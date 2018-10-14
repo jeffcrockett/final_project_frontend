@@ -1,6 +1,8 @@
 import React from 'react'
 import { Grid, Button } from 'semantic-ui-react'
 import UserComment from './UserComment'
+import Comment from './Comment'
+
 export default class UserProfile extends React.Component {
     constructor(props) {
         super(props)
@@ -33,12 +35,18 @@ export default class UserProfile extends React.Component {
                     </Grid.Column>
                     <Grid.Column>
                         Comments
-                        {this.props.currentUser && this.props.currentUser.comments.map(comment => <UserComment
-                        key={comment.id} comment={comment}
-                        toggleEdit={this.toggleEdit}
-                        editing={this.state.editing}
-                        handleCommentSave={this.props.handleCommentSave}
-                        deleteComment={this.props.deleteComment}/>)}
+                        {this.props.currentUser && this.props.currentUser.comments.map(comment => 
+                            <Comment comment={comment}
+                                savePostComment={this.props.savePostComment}
+                                deletePostComment={this.props.deletePostComment}
+                                currentUser={this.props.currentUser} />
+                        // <UserComment
+                        // key={comment.id} comment={comment}
+                        // toggleEdit={this.toggleEdit}
+                        // editing={this.state.editing}
+                        // handleCommentSave={this.props.handleCommentSave}
+                        // deleteComment={this.props.deleteComment}/>
+                        )}
                     </Grid.Column>
                 </Grid.Row>
             </Grid>

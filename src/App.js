@@ -14,6 +14,9 @@ import Subforum from './Subforum'
 import Post from './Post'
 
 class App extends Component {
+  // constructor() {
+    
+  // }
   state = {
     currentUser: null,
     subforums: [],
@@ -33,6 +36,41 @@ class App extends Component {
     }))
   }
 
+  fetchUser() {
+    fetch(`http://localhost:3000/api/v1/users/${this.state.currentUser.id}`)
+    .then(res => res.json())
+    .then(user => {
+      debugger;
+      this.updateUserInfo(user)
+    })
+  }
+
+  postComment = (content, postId) => {
+    
+    console.log(this.state)
+    const token = localStorage.getItem('token')
+    const params = {
+      content: content,
+      post_id: postId,
+      user_id: this.state.currentUser.id
+    }
+    debugger
+    fetch(`http://localhost:3000/api/v1/comments`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }, 
+      body: JSON.stringify(params)
+    }).then(res => res.json())
+      .then(json => {
+        debugger
+        this.fetchUser();
+        this.fetchPost(postId);
+      })
+  }
+
   componentDidMount() {
     const url = "http://localhost:3000/api/v1/profile";
     const token = localStorage.getItem("token");
@@ -49,6 +87,23 @@ class App extends Component {
         });
     }
     this.fetchSubforums()
+  }
+
+  deletePostComment(comment) {
+    const token = localStorage.getItem('token');
+    const postId = comment.post_id
+    fetch(`http://localhost:3000/api/v1/comments/${comment.id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({id: comment.id})
+    }).then(res => res.json()).then(json => {
+      debugger
+      this.fetchPost(postId)
+    })
   }
   
   setSubforum = (subforum) => {
@@ -108,6 +163,35 @@ class App extends Component {
     }).then(res => res.json())
     .then(json => console.log(json))
   }
+
+  fetchPost = (id) => {
+    fetch(`http://localhost:3000/api/v1/posts/${id}`)
+    .then(res => res.json())
+    .then(post => {
+      debugger
+      this.setState({
+      selectedPost: post 
+    })
+    })
+  }
+
+  savePostComment = (comment, content) => {
+    const token = localStorage.getItem('token')
+    const params = {
+      content: content
+    }
+    debugger
+    fetch(`http://localhost:3000/api/v1/comments/${comment.id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(params)
+    }).then(res => res.json()).then(json => {
+      this.fetchPost(comment.post_id)})
+  }
   
   render() {   
     return (
@@ -124,8 +208,8 @@ class App extends Component {
             render={() => <RegisterForm updateUserInfo={this.updateUserInfo} />} />
           <Route exact path="/profile" render={() => <UserProfile 
           currentUser={this.state.currentUser}
-          handleCommentSave={this.handleCommentSave}
-          deleteComment={this.deleteComment}/>} />
+          savePostComment ={this.savePostComment}
+          deletePostComment={this.deletePostComment}/>} />
           <Route exact path="/comments" component={CommentsContainer}/>
           <Route exact path="/f/:name" render={() => <Subforum
           subforum={this.state.selectedSubforum}
@@ -133,7 +217,11 @@ class App extends Component {
         }
           />
           <Route exact path="/f/:name/p/:id" render={() => <Post 
-          post={this.state.selectedPost}/>}/>
+          post={this.state.selectedPost}
+          postComment={this.postComment}
+          deletePostComment={this.deletePostComment}
+          savePostComment={this.savePostComment}
+          currentUser={this.state.currentUser}/>}/>
         </Switch>
       </div>
     );
