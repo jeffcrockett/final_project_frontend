@@ -36,7 +36,7 @@ class App extends Component {
     }))
   }
 
-  fetchUser() {
+  fetchUser = () => {
     fetch(`http://localhost:3000/api/v1/users/${this.state.currentUser.id}`)
     .then(res => res.json())
     .then(user => {
@@ -65,7 +65,7 @@ class App extends Component {
       body: JSON.stringify(params)
     }).then(res => res.json())
       .then(json => {
-        debugger
+        debugger;
         this.fetchUser();
         this.fetchPost(postId);
       })
@@ -89,7 +89,7 @@ class App extends Component {
     this.fetchSubforums()
   }
 
-  deletePostComment(comment) {
+  deletePostComment = (comment) => {
     const token = localStorage.getItem('token');
     const postId = comment.post_id
     fetch(`http://localhost:3000/api/v1/comments/${comment.id}`, {
@@ -101,7 +101,8 @@ class App extends Component {
       },
       body: JSON.stringify({id: comment.id})
     }).then(res => res.json()).then(json => {
-      debugger
+      debugger;
+      this.fetchUser()
       this.fetchPost(postId)
     })
   }
@@ -190,6 +191,7 @@ class App extends Component {
       },
       body: JSON.stringify(params)
     }).then(res => res.json()).then(json => {
+      this.fetchUser();
       this.fetchPost(comment.post_id)})
   }
   
