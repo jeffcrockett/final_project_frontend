@@ -12,6 +12,7 @@ import LoginForm from './LoginForm'
 import RegisterForm from './RegisterForm'
 import Subforum from './Subforum'
 import Post from './Post'
+import CreatePost from './CreatePost'
 
 class App extends Component {
   // constructor() {
@@ -27,20 +28,22 @@ class App extends Component {
     this.setState({ currentUser })
   };
 
-  fetchSubforums() {
+  fetchSubforums = () => {    
     fetch('http://localhost:3000/api/v1/subforums')
     .then(res => res.json())
-    .then(subforums => this.setState({
+    .then(subforums => {
+ 
+      this.setState({
       subforums: subforums,
       selectedSubforum: subforums[0]
-    }))
+    })
+  })
   }
 
   fetchUser = () => {
     fetch(`http://localhost:3000/api/v1/users/${this.state.currentUser.id}`)
     .then(res => res.json())
     .then(user => {
-      debugger;
       this.updateUserInfo(user)
     })
   }
@@ -53,8 +56,7 @@ class App extends Component {
       content: content,
       post_id: postId,
       user_id: this.state.currentUser.id
-    }
-    debugger
+    } 
     fetch(`http://localhost:3000/api/v1/comments`, {
       method: 'POST',
       headers: {
@@ -65,13 +67,12 @@ class App extends Component {
       body: JSON.stringify(params)
     }).then(res => res.json())
       .then(json => {
-        debugger;
         this.fetchUser();
         this.fetchPost(postId);
       })
   }
 
-  componentDidMount() {
+  componentDidMount = () => {
     const url = "http://localhost:3000/api/v1/profile";
     const token = localStorage.getItem("token");
     if (token) {
@@ -89,6 +90,32 @@ class App extends Component {
     this.fetchSubforums()
   }
 
+  createPost = (formData) => {
+    const token = localStorage.getItem('token')
+    const params = {
+      title: formData.title,
+      content: formData.content,
+      subforum_id: this.state.selectedSubforum.id,
+      user_id: this.state.currentUser.id
+    }
+    fetch('http://localhost:3000/api/v1/posts', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(params)
+    }).then(res => res.json())
+      .then(post => {
+        this.setState({
+          selectedPost: post 
+        })
+        console.log(post)
+        this.props.history.push(`/f/${this.state.selectedSubforum.name}/p/${post.id}`)
+      })
+  }
+
   deletePostComment = (comment) => {
     const token = localStorage.getItem('token');
     const postId = comment.post_id
@@ -101,7 +128,6 @@ class App extends Component {
       },
       body: JSON.stringify({id: comment.id})
     }).then(res => res.json()).then(json => {
-      debugger;
       this.fetchUser()
       this.fetchPost(postId)
     })
@@ -114,7 +140,6 @@ class App extends Component {
   }
 
   setPost = (post) => {
-    debugger
     this.setState({
       selectedPost: post
     })
@@ -169,7 +194,6 @@ class App extends Component {
     fetch(`http://localhost:3000/api/v1/posts/${id}`)
     .then(res => res.json())
     .then(post => {
-      debugger
       this.setState({
       selectedPost: post 
     })
@@ -181,7 +205,6 @@ class App extends Component {
     const params = {
       content: content
     }
-    debugger
     fetch(`http://localhost:3000/api/v1/comments/${comment.id}`, {
       method: 'PATCH',
       headers: {
@@ -218,6 +241,10 @@ class App extends Component {
           setPost={this.setPost}/>
         }
           />
+          <Route exact path="/f/:name/p/new" 
+          render={() => <CreatePost 
+          subforumId={this.state.selectedSubforum.id}
+          createPost={this.createPost}/>}/>
           <Route exact path="/f/:name/p/:id" render={() => <Post 
           post={this.state.selectedPost}
           postComment={this.postComment}

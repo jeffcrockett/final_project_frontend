@@ -13,6 +13,9 @@ class Subforum extends React.Component {
                 { this.props.subforum.posts &&
                 <div> 
                 <h1>{this.props.subforum.name}</h1>
+                <Link to={`/f/${this.props.subforum.name}/p/new`}>
+                    <h3>New post</h3>
+                </Link>
                 {this.props.subforum.posts.map(post => 
                 <Container
                             onClick={() => {
