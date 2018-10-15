@@ -47,9 +47,11 @@ class Subforum extends React.Component {
                 { this.state.subforum &&
                 <div>
                 <h1>{this.state.subforum.name}</h1>
+                { this.props.currentUser &&
                 <Link to={`/f/${this.state.subforum.name}/p/new`}>
                     <h3>New post</h3>
                 </Link>
+                }
                 </div>
                 }
             <Grid celled>
@@ -59,7 +61,7 @@ class Subforum extends React.Component {
                     <Image src='https://react.semantic-ui.com/images/wireframe/image.png' />
                 </Grid.Column>
                 <Grid.Column width={13}>
-                    <Link to={`/f/${this.props.subforum.name}/p/${post.id}`}>
+                    <Link style={{display:'flex'}}to={`/f/${this.props.subforum.name}/p/${post.id}`}>
                         <h3>{post.title}</h3>
                     </Link>
                 </Grid.Column>

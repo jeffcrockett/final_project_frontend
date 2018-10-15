@@ -1,8 +1,8 @@
 import React from 'react'
 import { Card } from 'semantic-ui-react'
 import Comment from './Comment'
-import { Form, TextArea, Button } from 'semantic-ui-react'
-import { withRouter } from 'react-router-dom'
+import { Form, TextArea, Button, Container, Grid } from 'semantic-ui-react'
+import { withRouter, Link } from 'react-router-dom'
 
 class Post extends React.Component {
     constructor(props) {
@@ -58,7 +58,25 @@ class Post extends React.Component {
         debugger
         return (
              <div>
-                <h1>{this.state.post && this.state.post.title}</h1>
+                 <Grid>
+                     <Grid.Column width={10}>
+                        <Grid.Row>
+                        <h1>{this.state.post && this.state.post.title}</h1>    
+                        </Grid.Row>
+                        <Grid.Row>       
+                         <p>{this.state.post && this.state.post.content}</p>
+                         </Grid.Row>
+                    </Grid.Column>
+                    <Grid.Column width={6}>
+                        <Grid.Row>
+                            { this.state.post && this.props.currentUser &&
+                            <Link to={`/f/${this.state.post.subforum.name}/p/new`}>                         
+                            New Post
+                            </Link>
+                            }
+                        </Grid.Row>
+                    </Grid.Column>
+                </Grid>
                 { this.props.currentUser && 
                 <Form onSubmit={(e) => {
                     console.log('submitting...')
@@ -72,11 +90,13 @@ class Post extends React.Component {
                     <Button type="submit">Submit</Button>
                 </Form>
                 }
+                <Card.Group>
                 {this.state.post && this.state.post.comments.map(comment => 
                 <Comment comment={comment}
                 savePostComment={this.props.savePostComment}
                 deletePostComment={this.props.deletePostComment}
                 currentUser={this.props.currentUser}/>)}
+                </Card.Group>
             </div>
             
         )

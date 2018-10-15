@@ -259,6 +259,7 @@ class App extends Component {
           deletePostComment={this.deletePostComment}/>} />
           <Route exact path="/comments" component={CommentsContainer}/>
           <Route exact path="/f/:name/:id" render={() => <Subforum
+          currentUser={this.state.currentUser}
           subforum={this.state.selectedSubforum}
           setPost={this.setPost}/>
         }
