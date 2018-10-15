@@ -2,6 +2,7 @@ import React from 'react'
 import { Container, Header } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import { withRouter } from 'react-router-dom'
+import { Grid, Image } from 'semantic-ui-react'
 
 class Subforum extends React.Component {
     constructor(props) {
@@ -44,25 +45,38 @@ class Subforum extends React.Component {
         return (
             <div>
                 { this.state.subforum &&
-                <div> 
+                <div>
                 <h1>{this.state.subforum.name}</h1>
                 <Link to={`/f/${this.state.subforum.name}/p/new`}>
                     <h3>New post</h3>
                 </Link>
+                </div>
+                }
+            <Grid celled>
+            { this.state.subforum && this.state.subforum.posts.map(post =>
+            <Grid.Row>
+                <Grid.Column width={3}>
+                    <Image src='https://react.semantic-ui.com/images/wireframe/image.png' />
+                </Grid.Column>
+                <Grid.Column width={13}>
+                    <Link to={`/f/${this.props.subforum.name}/p/${post.id}`}>
+                        <h3>{post.title}</h3>
+                    </Link>
+                </Grid.Column>
+            </Grid.Row>
+            ) }
+            </Grid>
+            {/* }
                 {this.state.subforum && this.state.subforum.posts.map(post => 
                 <Container
                             onClick={() => {
                                 console.log(this);
                                 this.props.setPost(post)
                             }} >
-                <Link 
-                    to={`/f/${this.props.subforum.name}/p/${post.id}`}
-                >
-                    <h3>{post.title}</h3>
-                    </Link>
+                
                 </Container>)}
                 </div>         
-                }
+                } */}
             </div>
         )
     }

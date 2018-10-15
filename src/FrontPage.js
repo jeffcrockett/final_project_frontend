@@ -19,7 +19,7 @@ class FrontPage extends React.Component {
                         <h3><Link to={`/f/${post.subforum.name}/p/${post.id}`}
                         onClick={() => this.props.setPost(post)}>{post.title}</Link></h3>
                         <p>submitted by <Link to={`/users/${post.user.id}`}>{post.user.username}</Link> to 
-                        <Link to={`/f/${post.subforum.name}`}>{post.subforum.name}</Link></p>
+                        <Link to={`/f/${post.subforum.name}/${post.subforum.id}`}>{post.subforum.name}</Link></p>
                     </Grid.Column>
                 </Grid.Row>
                )}

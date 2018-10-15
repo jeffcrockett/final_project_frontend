@@ -37,7 +37,7 @@ class CreateForum extends React.Component {
         .then(json => {
             console.log(json);
             this.props.fetchSubforums()
-            this.props.history.push(`/f/${json.name}`)
+            this.props.history.push(`/f/${json.name}/${json.id}`)
         })
     }
 

@@ -10,15 +10,16 @@ class Post extends React.Component {
     }
 
     componentDidMount = () => {
-        const urlId = this.props.match.url.split('/')[4]
-        fetch(`http://localhost:3000/api/v1/posts/${urlId}`)
-        .then(res => res.json())
-        .then(post => {
-            debugger;
-            this.setState({
-            post: post
-        })
-    })
+        this.getPostFromUrl()
+    //     const urlId = this.props.match.url.split('/')[4]
+    //     fetch(`http://localhost:3000/api/v1/posts/${urlId}`)
+    //     .then(res => res.json())
+    //     .then(post => {
+    //         debugger;
+    //         this.setState({
+    //         post: post
+    //     })
+    // })
     }
 
     state = {
@@ -26,10 +27,29 @@ class Post extends React.Component {
         post: null
     }
 
+    getPostFromUrl = () => {
+        const urlId = this.props.match.url.split('/')[4]
+        fetch(`http://localhost:3000/api/v1/posts/${urlId}`)
+            .then(res => res.json())
+            .then(post => {
+                debugger;
+                this.setState({
+                    post: post
+                })
+            })
+    }
+
     handleOnChange = (e) => {
         this.setState({
             [e.target.name]: e.target.value
         })
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.post !== prevProps.post) {
+            debugger
+            this.getPostFromUrl()
+        }
     }
 
 
