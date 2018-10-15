@@ -31,6 +31,7 @@ export default class Comment extends React.Component {
     }
 
     render() {
+        debugger
         return (
             <div class='ui card'>           
                 <div class='content'>
@@ -56,7 +57,7 @@ export default class Comment extends React.Component {
                     }
                 </div>
                     {
-                        this.props.currentUser.id === this.props.comment.user.id 
+                        this.props.currentUser && this.props.currentUser.id === this.props.comment.user.id 
                         ?
                     <div class='extra content'>
                         <a onClick={() => this.toggleEditing()}>Edit | </a>

@@ -1,6 +1,7 @@
 import React from 'react'
 import { Menu, Dropdown } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
+import { Image } from 'semantic-ui-react'
 
 export default class Header extends React.Component {
     constructor(props) {
@@ -15,8 +16,26 @@ export default class Header extends React.Component {
         const { activeItem } = this.state
 
         return (
-            <Menu>
-                <Menu.Item
+            <Menu backgroundColor="blue">
+                <Menu.Item right>
+                    <Dropdown text='Forums'>
+                        <Dropdown.Menu>
+                            <Dropdown.Item>
+                                <Link to="/f/create">
+                                    New forum
+                                </Link>
+                            </Dropdown.Item>
+                            {this.props.subforums.map(s =>
+                                <Link to={`/f/${s.name}/${s.id}`}
+                                onClick={() => this.props.setSubforum(s)}>
+                                    <Dropdown.Item text={s.name} />
+                                </Link>
+                            )}
+
+                        </Dropdown.Menu>
+                    </Dropdown>
+                </Menu.Item>
+                {/* <Menu.Item
                     name='editorials'
                     active={activeItem === 'editorials'}
                     onClick={this.handleItemClick}
@@ -25,7 +44,7 @@ export default class Header extends React.Component {
                 </Menu.Item>
                 <Menu.Item name='reviews' active={activeItem === 'reviews'} onClick={this.handleItemClick}>
                     Reviews
-                </Menu.Item>
+                </Menu.Item> */}
                 { 
                     !this.props.currentUser 
                 ?
@@ -53,14 +72,14 @@ export default class Header extends React.Component {
                 </div>
                 :
                 <div style={{ display: 'inherit' }}>
-                <Link to="/profile" className="item">
+                <Link to={`/users/${this.props.currentUser.id}`} className="item">
                     <Menu.Item
                         name='profile'
                         // position='right'
                         active={activeItem === 'profile'}
                         onClick={this.handleItemClick}
                     >
-                        Profile
+                        {this.props.currentUser.username}
                     </Menu.Item>
                 </Link>
                 <Menu.Item
@@ -75,20 +94,7 @@ export default class Header extends React.Component {
                 </div>
 
                 }
-                <Menu.Item>
-                    <Dropdown text='Forums'>
-                        <Dropdown.Menu>
-                            {this.props.subforums.map(s => 
-                                <Link 
-                                onClick={() => this.props.setSubforum(s)}
-                                to={`/f/${s.name}`}>
-                                <Dropdown.Item text={s.name} />
-                                </Link>
-                            )}
-
-                        </Dropdown.Menu>
-                    </Dropdown>
-                    </Menu.Item>
+   
             </Menu>
         )
     }

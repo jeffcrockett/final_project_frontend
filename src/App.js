@@ -13,6 +13,8 @@ import RegisterForm from './RegisterForm'
 import Subforum from './Subforum'
 import Post from './Post'
 import CreatePost from './CreatePost'
+import FrontPage from './FrontPage'
+import CreateForum from './CreateForum'
 
 class App extends Component {
   // constructor() {
@@ -21,7 +23,8 @@ class App extends Component {
   state = {
     currentUser: null,
     subforums: [],
-    selectedSubforum: 'asdf'
+    selectedSubforum: 'asdf',
+    posts: []
   }
 
   updateUserInfo = currentUser => {
@@ -34,8 +37,7 @@ class App extends Component {
     .then(subforums => {
  
       this.setState({
-      subforums: subforums,
-      selectedSubforum: subforums[0]
+      subforums: subforums
     })
   })
   }
@@ -84,9 +86,10 @@ class App extends Component {
         .then(res => res.json())
         .then(response => {
           this.updateUserInfo(response.user);
-          this.props.history.push("/profile");
+          // this.props.history.push("/");
         });
     }
+    this.fetchAllPosts()
     this.fetchSubforums()
   }
 
@@ -132,14 +135,29 @@ class App extends Component {
       this.fetchPost(postId)
     })
   }
+
+  fetchAllPosts = () => {
+    fetch('http://localhost:3000/api/v1/posts')
+    .then(res => res.json())
+    .then(posts => {
+      debugger
+      this.setState({
+      posts: posts
+    })
+  })
+  }
+
+  
   
   setSubforum = (subforum) => {
+    debugger
     this.setState({
       selectedSubforum: subforum
     })   
   }
 
   setPost = (post) => {
+    debugger
     this.setState({
       selectedPost: post
     })
@@ -226,17 +244,21 @@ class App extends Component {
         subforums={this.state.subforums}
         setSubforum={this.setSubforum}/>
         <Switch>
+          <Route exact path="/f/create" 
+          render={() => <CreateForum fetchSubforums={this.fetchSubforums}/>}
+          />
+          <Route exact path="/" render={() => <FrontPage setPost={this.setPost} posts={this.state.posts}/>}/>
           <Route exact path="/login" 
           render={() => <LoginForm updateUserInfo={this.updateUserInfo}/> }
           />
           <Route exact path="/register"
             render={() => <RegisterForm updateUserInfo={this.updateUserInfo} />} />
-          <Route exact path="/profile" render={() => <UserProfile 
+          <Route exact path="/users/:id" render={() => <UserProfile 
           currentUser={this.state.currentUser}
           savePostComment ={this.savePostComment}
           deletePostComment={this.deletePostComment}/>} />
           <Route exact path="/comments" component={CommentsContainer}/>
-          <Route exact path="/f/:name" render={() => <Subforum
+          <Route exact path="/f/:name/:id" render={() => <Subforum
           subforum={this.state.selectedSubforum}
           setPost={this.setPost}/>
         }

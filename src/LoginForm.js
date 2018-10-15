@@ -36,7 +36,7 @@ class LoginForm extends React.Component {
                 localStorage.setItem("token", response.jwt);
                 // console.log(response);
                 this.props.updateUserInfo(response.user);
-                this.props.history.push("/profile");
+                this.props.history.push(`/users/${response.user.id}`);
             });
     };
     render() {
