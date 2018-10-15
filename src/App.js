@@ -15,6 +15,9 @@ import Post from './Post'
 import CreatePost from './CreatePost'
 import FrontPage from './FrontPage'
 import CreateForum from './CreateForum'
+import Sidebar from './Sidebar'
+import { Grid } from 'semantic-ui-react'
+
 
 class App extends Component {
   // constructor() {
@@ -243,6 +246,9 @@ class App extends Component {
         logout={this.logout}
         subforums={this.state.subforums}
         setSubforum={this.setSubforum}/>
+      <Grid>
+        <Grid.Column width={13}>
+        <Grid.Row>
         <Switch>
           <Route exact path="/f/create" 
           render={() => <CreateForum fetchSubforums={this.fetchSubforums}/>}
@@ -275,6 +281,14 @@ class App extends Component {
           savePostComment={this.savePostComment}
           currentUser={this.state.currentUser}/>}/>
         </Switch>
+        </Grid.Row>
+        </Grid.Column>
+        <Grid.Column width={3}>
+        <Grid.Row>
+          <Sidebar/>
+          </Grid.Row>
+        </Grid.Column>
+        </Grid>
       </div>
     );
   }
