@@ -14,8 +14,7 @@ class Subforum extends React.Component {
     }
 
     componentDidMount = () => {
-        const urlId = this.props.match.url.split('/')[3]
-        debugger
+        const urlId = this.props.match.url.split('/')[3]  
         fetch(`http://localhost:3000/api/v1/subforums/${urlId}`)
         .then(res => res.json())
         .then(subforum => {
@@ -27,8 +26,7 @@ class Subforum extends React.Component {
 
     componentDidUpdate(prevProps) {
         // Typical usage (don't forget to compare props):
-        if (this.props.subforum !== prevProps.subforum) {
-            debugger
+        if (this.props.subforum !== prevProps.subforum) { 
             const urlId = this.props.match.url.split('/')[3]
             fetch(`http://localhost:3000/api/v1/subforums/${urlId}`)
                 .then(res => res.json())
@@ -48,7 +46,7 @@ class Subforum extends React.Component {
                 <div>
                 <h1>{this.state.subforum.name}</h1>
                 { this.props.currentUser &&
-                <Link to={`/f/${this.state.subforum.name}/p/new`}>
+                <Link to={`/f/${this.state.subforum.name}/${this.state.subforum.id}/p/new`}>
                     <h3>New post</h3>
                 </Link>
                 }
@@ -61,7 +59,7 @@ class Subforum extends React.Component {
                     <Image src='https://react.semantic-ui.com/images/wireframe/image.png' />
                 </Grid.Column>
                 <Grid.Column width={13}>
-                    <Link style={{display:'flex'}}to={`/f/${this.props.subforum.name}/p/${post.id}`}>
+                    <Link style={{display:'flex'}}to={`/f/${this.state.subforum.name}/${this.state.subforum.id}/p/${post.id}`}>
                         <h3>{post.title}</h3>
                     </Link>
                 </Grid.Column>

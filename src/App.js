@@ -78,7 +78,6 @@ class App extends Component {
   }
 
   componentDidMount = () => {
-    debugger
     const url = "http://localhost:3000/api/v1/profile";
     const token = localStorage.getItem("token");
     if (token) {
@@ -143,8 +142,7 @@ class App extends Component {
   fetchAllPosts = () => {
     fetch('http://localhost:3000/api/v1/posts')
     .then(res => res.json())
-    .then(posts => {
-      debugger
+    .then(posts => { 
       this.setState({
       posts: posts
     })
@@ -154,14 +152,12 @@ class App extends Component {
   
   
   setSubforum = (subforum) => {
-    debugger
     this.setState({
       selectedSubforum: subforum
     })   
   }
 
-  setPost = (post) => {
-    debugger
+  setPost = (post) => {  
     this.setState({
       selectedPost: post
     })
@@ -271,11 +267,11 @@ class App extends Component {
           setPost={this.setPost}/>
         }
           />
-          <Route exact path="/f/:name/p/new" 
+          <Route exact path="/f/:name/:id/p/new" 
           render={() => <CreatePost 
           subforumId={this.state.selectedSubforum.id}
           createPost={this.createPost}/>}/>
-          <Route exact path="/f/:name/p/:id" render={() => <Post 
+          <Route exact path="/f/:name/:id/p/:id" render={() => <Post 
           post={this.state.selectedPost}
           postComment={this.postComment}
           deletePostComment={this.deletePostComment}

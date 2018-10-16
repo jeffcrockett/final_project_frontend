@@ -16,7 +16,7 @@ class FrontPage extends React.Component {
                         <Image src='https://react.semantic-ui.com/images/wireframe/image.png' />
                     </Grid.Column>
                     <Grid.Column width={13}>
-                        <h3><Link style={{display: 'flex'}}to={`/f/${post.subforum.name}/p/${post.id}`}
+                        <h3><Link style={{display: 'flex'}}to={`/f/${post.subforum.name}/${post.subforum.id}/p/${post.id}`}
                         onClick={() => this.props.setPost(post)}>{post.title}</Link></h3>
                         <p style={{display:'flex'}}>submitted by <Link to={`/users/${post.user.id}`}> {post.user.username} </Link> to 
                         <Link to={`/f/${post.subforum.name}/${post.subforum.id}`}> {post.subforum.name}</Link></p>

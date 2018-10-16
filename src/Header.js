@@ -17,6 +17,16 @@ export default class Header extends React.Component {
 
         return (
             <Menu backgroundColor="blue">
+                <Link to="/" className="item">
+                    <Menu.Item
+                        name='home'
+                        // position='right'
+                        active={activeItem === 'home'}
+                        onClick={this.handleItemClick}
+                    >
+                        Front
+                    </Menu.Item>
+                </Link> 
                 <Menu.Item right>
                     <Dropdown text='Forums'>
                         <Dropdown.Menu>

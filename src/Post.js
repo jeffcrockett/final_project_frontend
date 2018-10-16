@@ -33,7 +33,7 @@ class Post extends React.Component {
     }
 
     getPostFromUrl = () => {
-        const urlId = this.props.match.url.split('/')[4]
+        const urlId = this.props.match.url.split('/')[5]
         fetch(`http://localhost:3000/api/v1/posts/${urlId}`)
             .then(res => res.json())
             .then(post => {
@@ -90,8 +90,7 @@ class Post extends React.Component {
     }
 
     submitReply = (content, parentId) => {
-        const token = localStorage.getItem('token')
-        debugger
+        const token = localStorage.getItem('token')    
         const params = {
             content: content,
             parent_id: parentId,
@@ -122,18 +121,18 @@ class Post extends React.Component {
                      <Grid.Column width={16}>
                         <Grid.Row>
                         <h1>{this.state.post && this.state.post.title}</h1>
-                        <h4>submitted by {this.state.post && this.state.post.user.username}</h4><hr/>  
+                        <h4>submitted by {this.state.post && this.state.post.user && this.state.post.user.username}</h4><hr/>  
                         </Grid.Row>
                         <Grid.Row>
                             { !this.state.editing ?       
                          <p>{this.state.post && this.state.post.content}</p>
-                            : <div>
-                                <p><textarea value={this.state.formContent}
+                            : <Form>
+                                <TextArea value={this.state.formContent}
                                 name="formContent"
-                                onChange={(e) => this.handleOnChange(e)}></textarea></p>
+                                onChange={(e) => this.handleOnChange(e)}></TextArea>
                                 <a onClick={() => this.editPostContent(this.state.formContent)}>Submit</a>
                                 <a onClick={() => this.cancelEdit()}>Cancel</a>
-                                </div>
+                                </Form>
                             }
                          { this.props.currentUser && this.state.post &&
                          this.state.post.user.id === this.props.currentUser.id &&
