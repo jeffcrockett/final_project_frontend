@@ -1,13 +1,17 @@
 import React from 'react' 
 import { Card } from 'semantic-ui-react'
-export default class Comment extends React.Component {
+import { withRouter } from 'react-router-dom'
+
+class Comment extends React.Component {
     constructor(props) {
         super(props)
     }
 
     state = {
         editing: false,
-        value: this.props.comment.content
+        replying: false,
+        value: this.props.comment.content,
+        replyContent: ''
     }
 
     handleOnChange = (e) => {
@@ -24,17 +28,24 @@ export default class Comment extends React.Component {
     //     .then()
     // }
 
-    toggleEditing() {
+    toggleEditing = () => {
         this.setState({
             editing: !this.state.editing
         })
     }
 
+    toggleReply = () => {
+        this.setState({
+            replying: !this.state.replying
+        })
+    }
+
     render() {
-        debugger
         return (
-            <div>
+            <div id={this.props.comment.id}>
             <div class="ui raised padded text container segment">
+            <h6>{this.props.comment.replies && this.props.comment.replies.map(reply => 
+            <a href={`#${reply.id}`}>{reply.id}</a>)}</h6>
                         <h4>{this.props.comment.user.username}</h4>
                     { !this.state.editing ?                
                     <p>
@@ -49,9 +60,15 @@ export default class Comment extends React.Component {
                         <a onClick={() => {
                             debugger
                             this.toggleEditing();
+                            if(this.props.match.url.split('/').includes('users')) {
+                                this.props.saveProfileComment(this.state.value, this.props.comment.id)
+                            }
+                            else {
                             this.props.savePostComment(this.props.comment, this.state.value)
+                            }
                             }}>
                         Save</a>
+                
                     </p>
                     }
                     {
@@ -59,13 +76,24 @@ export default class Comment extends React.Component {
                         ?
                     <div class='extra content'>
                         <a onClick={() => this.toggleEditing()}>Edit | </a>
-                        <a onClick={() => this.props.deletePostComment(this.props.comment)}>Delete</a>
+                        <a onClick={() => this.props.deletePostComment(this.props.comment)}>Delete | </a>
+                        <a onClick={() => this.toggleReply()}>Reply</a>
+                        {
+                            this.state.replying && 
+                            <div>
+                                <textarea placeholder="Write a reply"
+                                value={this.state.replyContent}
+                                name="replyContent"
+                                onChange={(e) => this.handleOnChange(e)}/><br/>
+                                <a onClick={() => this.props.submitReply(this.state.replyContent, this.props.comment.id)}>Submit</a>
+                                
+                            </div>
+                        }
                     </div>  
                         : ''
                     }
                 </div>
-                       
-            
+       
             </div>
             // <div>
             //     <Card
@@ -85,3 +113,5 @@ export default class Comment extends React.Component {
         )
     }
 }
+
+export default withRouter(Comment)

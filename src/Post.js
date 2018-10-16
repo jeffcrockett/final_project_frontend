@@ -89,6 +89,30 @@ class Post extends React.Component {
         .then(json => this.getPostFromUrl())
     }
 
+    submitReply = (content, parentId) => {
+        const token = localStorage.getItem('token')
+        debugger
+        const params = {
+            content: content,
+            parent_id: parentId,
+            user_id: this.props.currentUser.id,
+            post_id: this.state.post.id
+        }
+        fetch('http://localhost:3000/api/v1/reply', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(params)
+        }).then(res => res.json())
+        .then(json => {
+            // this.getPostFromUrl()
+            console.log(json)
+        })
+    }
+
 
 
     render() {
@@ -149,6 +173,7 @@ class Post extends React.Component {
                 
                 {this.state.post && this.state.post.comments.map(comment => 
                 <Comment comment={comment}
+                submitReply={this.submitReply}
                 savePostComment={this.props.savePostComment}
                 deletePostComment={this.props.deletePostComment}
                 currentUser={this.props.currentUser}/>)}

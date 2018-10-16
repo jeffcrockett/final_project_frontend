@@ -3,6 +3,7 @@ import { Grid, Button } from 'semantic-ui-react'
 import UserComment from './UserComment'
 import Comment from './Comment'
 import { withRouter } from 'react-router-dom'
+import PostCard from './PostCard'
 
 class UserProfile extends React.Component {
     constructor(props) {
@@ -12,75 +13,107 @@ class UserProfile extends React.Component {
         comments: [],
         posts: [],
         editing: false,
-        user: null
+        user: null,
+        viewing: 'posts'
     }
 
     componentDidMount = () => {
-        const urlId = this.props.match.url.split('/')[2]
         debugger
+        this.getUserFromUrl()
+    }
+    
+    getUserFromUrl = () => {
+        const urlId = this.props.match.url.split('/')[2]        
         fetch(`http://localhost:3000/api/v1/users/${urlId}`)
         .then(res => res.json())
         .then(user => {
+            console.log(this.props.currentUser)
             this.setState({
                 user: user
             })
         })
     }
 
+    componentDidUpdate(prevProps) {
+        if (this.props !== prevProps) {
+            debugger
+        }
+    }
 
- 
+    saveProfilePost = (formData, id) => {
+        const token = localStorage.getItem('token')
+        const params = {
+            content: formData
+        }
+        fetch(`http://localhost:3000/api/v1/posts/${id}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(params)
+        }).then(res => res.json())
+        .then(json => this.getUserFromUrl())
+    }
 
+    saveProfileComment = (formData, id) => {
+        const token = localStorage.getItem('token')
+        const params = {
+            content: formData
+        }
+        fetch(`http://localhost:3000/api/v1/comments/${id}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(params)
+        }).then(res => res.json())
+            .then(json => this.getUserFromUrl())
+    }
+    
+    
+    
+    
     // componentDidMount() {
     //     fetch('http://localhost:3000/users/')
     // }
 
     render() {
         return (
-            <Grid columns={2} divided>
-                <Grid.Row>
-                    <Grid.Column>
-                        Posts
-                        {this.state.user && 
-                        // this.props.currentUser &&
-                        // this.props.currentUser.id === this.state.user.id ? 
-                        this.state.user.posts.map(post => 
-                            <Grid.Row>
-                                {post.title}
-                                    {/* <Button onClick={() => this.setState({
-                                        editing: true
-                                    })}>Edit</Button> */}
-                                </Grid.Row>
-                        )
+            <div>
+                <div class="ui two item stackable tabs menu">
+                    <a onClick={() => this.setState({viewing: 'posts'})} 
+                    class="item" 
+                    data-tab="definition">Posts</a>
+                    <a onClick={() => this.setState({viewing: 'comments'})}
+                    class="item" data-tab="examples">Comments</a>
+                </div>
+                { this.state.viewing === 'posts' ?
+                <div>
+                    Posts
+                    {this.state.user && this.state.user.posts.map(post => 
+                        <PostCard post={post}
+                        currentUser={this.props.currentUser}
+                        saveProfilePost={this.saveProfilePost}/>
+                    )
                     }
-                        
-                        {/* // this.state.user.posts.map(post =>
-                        // <Grid.Row>{post.title}<br/>
-                        
-                        { this.state.user && this.state.currentUser && this.state.user.id === this.props.currentUser.id &&
-                        <Button onClick={() => this.setState({
-                            editing: true
-                        })}>Edit</Button>
-                        } */}
-
-                        {/* </Grid.Row>)} */}
-                    </Grid.Column>
-                    <Grid.Column>
-                        Comments
-                        {this.state.user && this.state.user.comments.map(comment => 
-                            <Comment comment={comment}
-                                savePostComment={this.props.savePostComment}
-                                deletePostComment={this.props.deletePostComment}
-                                currentUser={this.props.currentUser} />
-                        // <UserComment
-                        // key={comment.id} comment={comment}
-                        // toggleEdit={this.toggleEdit}
-                        // editing={this.state.editing}
-                        // handleCommentSave={this.props.handleCommentSave}
-                        // deleteComment={this.props.deleteComment}/>
+                </div>
+                : 
+                <div>
+                    Comments
+                    {this.state.user && this.state.user.comments.map(comment => 
+                        <Comment comment={comment}
+                            savePostComment={this.props.savePostComment}
+                            saveProfileComment={this.saveProfileComment}
+                            deletePostComment={this.props.deletePostComment}
+                            currentUser={this.props.currentUser} />
                         )}
-                    </Grid.Column>
-                </Grid.Row>
-            </Grid>
+                </div>
+                }
+            </div>
         )
     }
 }

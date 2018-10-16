@@ -78,6 +78,7 @@ class App extends Component {
   }
 
   componentDidMount = () => {
+    debugger
     const url = "http://localhost:3000/api/v1/profile";
     const token = localStorage.getItem("token");
     if (token) {
