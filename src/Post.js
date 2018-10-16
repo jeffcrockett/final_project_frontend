@@ -11,6 +11,10 @@ class Post extends React.Component {
 
     componentDidMount = () => {
         this.getPostFromUrl()
+        
+        // this.setState({
+        //     formContent: this.state.post.content
+        // })
     //     const urlId = this.props.match.url.split('/')[4]
     //     fetch(`http://localhost:3000/api/v1/posts/${urlId}`)
     //     .then(res => res.json())
@@ -24,7 +28,8 @@ class Post extends React.Component {
 
     state = {
         comment: '',
-        post: null
+        post: null,
+        editing: false
     }
 
     getPostFromUrl = () => {
@@ -32,11 +37,12 @@ class Post extends React.Component {
         fetch(`http://localhost:3000/api/v1/posts/${urlId}`)
             .then(res => res.json())
             .then(post => {
-                debugger;
                 this.setState({
-                    post: post
+                    post: post,
+                    formContent: post.content
                 })
             })
+            
     }
 
     handleOnChange = (e) => {
@@ -47,27 +53,77 @@ class Post extends React.Component {
 
     componentDidUpdate(prevProps) {
         if (this.props.post !== prevProps.post) {
-            debugger
             this.getPostFromUrl()
         }
+    }
+
+    triggerEdit = () => {
+        this.setState({
+            editing: true
+        })
+    }
+
+    cancelEdit = () => {
+        this.setState({
+            editing: false
+        })
+    }
+
+    editPostContent = (formContent) => {
+        this.setState({
+            editing: false
+        })
+        const token = localStorage.getItem('token')
+        const params = {
+            content: formContent 
+        }
+        fetch(`http://localhost:3000/api/v1/posts/${this.state.post.id}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(params)
+        }).then(res => res.json())
+        .then(json => this.getPostFromUrl())
     }
 
 
 
     render() {
-        debugger
         return (
              <div>
                  <Grid>
-                     <Grid.Column width={10}>
+                     <Grid.Column width={16}>
                         <Grid.Row>
-                        <h1>{this.state.post && this.state.post.title}</h1>    
+                        <h1>{this.state.post && this.state.post.title}</h1>
+                        <h4>submitted by {this.state.post && this.state.post.user.username}</h4><hr/>  
                         </Grid.Row>
-                        <Grid.Row>       
+                        <Grid.Row>
+                            { !this.state.editing ?       
                          <p>{this.state.post && this.state.post.content}</p>
+                            : <div>
+                                <p><textarea value={this.state.formContent}
+                                name="formContent"
+                                onChange={(e) => this.handleOnChange(e)}></textarea></p>
+                                <a onClick={() => this.editPostContent(this.state.formContent)}>Submit</a>
+                                <a onClick={() => this.cancelEdit()}>Cancel</a>
+                                </div>
+                            }
+                         { this.props.currentUser && this.state.post &&
+                         this.state.post.user.id === this.props.currentUser.id &&
+                         <div>
+                             { !this.state.editing ? 
+                            <div><a onClick={() => this.triggerEdit()}>Edit | </a>
+                            <a>Delete</a>
+                            </div>
+                             : ''}
+                        </div>
+                         }
                          </Grid.Row>
                     </Grid.Column>
-                    <Grid.Column width={6}>
+                    {/* <Grid.Column width={6}>
                         <Grid.Row>
                             { this.state.post && this.props.currentUser &&
                             <Link to={`/f/${this.state.post.subforum.name}/p/new`}>                         
@@ -75,7 +131,7 @@ class Post extends React.Component {
                             </Link>
                             }
                         </Grid.Row>
-                    </Grid.Column>
+                    </Grid.Column> */}
                 </Grid>
                 { this.props.currentUser && 
                 <Form onSubmit={(e) => {
@@ -90,13 +146,13 @@ class Post extends React.Component {
                     <Button type="submit">Submit</Button>
                 </Form>
                 }
-                <Card.Group>
+                
                 {this.state.post && this.state.post.comments.map(comment => 
                 <Comment comment={comment}
                 savePostComment={this.props.savePostComment}
                 deletePostComment={this.props.deletePostComment}
                 currentUser={this.props.currentUser}/>)}
-                </Card.Group>
+                
             </div>
             
         )

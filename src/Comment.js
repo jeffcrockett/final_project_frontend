@@ -33,29 +33,27 @@ export default class Comment extends React.Component {
     render() {
         debugger
         return (
-            <div class='ui card'>           
-                <div class='content'>
-                    <div class='meta'>
-                        {this.props.comment.user.username}</div>
+            <div>
+            <div class="ui raised padded text container segment">
+                        <h4>{this.props.comment.user.username}</h4>
                     { !this.state.editing ?                
-                    <div class='description'>
+                    <p>
                         {this.props.comment.content}
-                    </div>
+                    </p>
                     :
-                    <div class='description'>
+                    <p>
                         <textarea name="value"
                         onChange={(e) => this.handleOnChange(e)}
                         value={this.state.value}>
-                        </textarea>
+                        </textarea><br/>
                         <a onClick={() => {
                             debugger
                             this.toggleEditing();
                             this.props.savePostComment(this.props.comment, this.state.value)
                             }}>
                         Save</a>
-                    </div>
+                    </p>
                     }
-                </div>
                     {
                         this.props.currentUser && this.props.currentUser.id === this.props.comment.user.id 
                         ?
@@ -65,6 +63,9 @@ export default class Comment extends React.Component {
                     </div>  
                         : ''
                     }
+                </div>
+                       
+            
             </div>
             // <div>
             //     <Card
