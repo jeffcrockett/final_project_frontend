@@ -118,10 +118,10 @@ class Post extends React.Component {
         return (
              <div>
                  <Grid>
-                     <Grid.Column width={16}>
+                     <Grid.Column width={13}>
                         <Grid.Row>
                         <h1>{this.state.post && this.state.post.title}</h1>
-                        <h4>submitted by {this.state.post && this.state.post.user && this.state.post.user.username}</h4><hr/>  
+                        <h4>submitted by {this.state.post && this.state.post.user && this.state.post.user.username}</h4>
                         </Grid.Row>
                         <Grid.Row>
                             { !this.state.editing ?       

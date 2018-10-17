@@ -3,6 +3,7 @@ import { Container, Header } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import { withRouter } from 'react-router-dom'
 import { Grid, Image } from 'semantic-ui-react'
+import PostGrid from './PostGrid'
 
 class Subforum extends React.Component {
     constructor(props) {
@@ -52,11 +53,16 @@ class Subforum extends React.Component {
                 }
                 </div>
                 }
-            <Grid celled>
             { this.state.subforum && this.state.subforum.posts.map(post =>
+                <PostGrid voteOnPost={this.props.voteOnPost}
+                post={post}/>
+            ) }
+            {/* <Grid celled>
             <Grid.Row>
                 <Grid.Column width={3}>
-                    <Image src='https://react.semantic-ui.com/images/wireframe/image.png' />
+                    <div class="column"><i class="arrow circle up icon"></i></div>
+                    {post.upvotes - post.downvotes}
+                    <div class="column"><i class="arrow circle down icon"></i></div>
                 </Grid.Column>
                 <Grid.Column width={13}>
                     <Link style={{display:'flex'}}to={`/f/${this.state.subforum.name}/${this.state.subforum.id}/p/${post.id}`}>
@@ -64,8 +70,7 @@ class Subforum extends React.Component {
                     </Link>
                 </Grid.Column>
             </Grid.Row>
-            ) }
-            </Grid>
+            </Grid> */}
             {/* }
                 {this.state.subforum && this.state.subforum.posts.map(post => 
                 <Container

@@ -8,7 +8,17 @@ export default class Header extends React.Component {
         super(props)
     }
 
-    state = {}
+    state = {
+        value: '',
+        filteredSubforumTitles: []
+    }
+
+    filterSubforums = (e) => {
+        this.setState({
+            value: e.target.value
+        })
+    }
+
 
     handleItemClick = (e, { name }) => this.setState({ activeItem: name })
 
@@ -28,6 +38,9 @@ export default class Header extends React.Component {
                     </Menu.Item>
                 </Link> 
                 <Menu.Item right>
+                    {/* <input type="text" 
+                    value={this.state.value}
+                    onChange={(e) => this.filterSubforums(e)}/> */}
                     <Dropdown text='Forums'>
                         <Dropdown.Menu>
                             <Dropdown.Item>

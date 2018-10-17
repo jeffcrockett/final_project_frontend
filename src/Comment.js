@@ -43,7 +43,7 @@ class Comment extends React.Component {
     render() {
         return (
             <div id={this.props.comment.id}>
-            <div class="ui raised padded text container segment">
+            <div class="ui raised text container segment">
             <h6>{this.props.comment.replies && this.props.comment.replies.map(reply => 
             <a href={`#${reply.id}`}>{reply.id}</a>)}</h6>
                         <h4>{this.props.comment.user.username}</h4>
@@ -71,12 +71,6 @@ class Comment extends React.Component {
                 
                     </p>
                     }
-                    {
-                        this.props.currentUser && this.props.currentUser.id === this.props.comment.user.id 
-                        ?
-                    <div class='extra content'>
-                        <a onClick={() => this.toggleEditing()}>Edit | </a>
-                        <a onClick={() => this.props.deletePostComment(this.props.comment)}>Delete | </a>
                         <a onClick={() => this.toggleReply()}>Reply</a>
                         {
                             this.state.replying && 
@@ -85,10 +79,21 @@ class Comment extends React.Component {
                                 value={this.state.replyContent}
                                 name="replyContent"
                                 onChange={(e) => this.handleOnChange(e)}/><br/>
-                                <a onClick={() => this.props.submitReply(this.state.replyContent, this.props.comment.id)}>Submit</a>
+                                <a onClick={() => {
+                                    this.setState({
+                                        replying: false
+                                    })
+                                    this.props.submitReply(this.state.replyContent, this.props.comment.id)
+                                }}>Submit</a>
                                 
                             </div>
                         }
+                    {
+                        this.props.currentUser && this.props.currentUser.id === this.props.comment.user.id 
+                        ?
+                    <div class='extra content'>
+                        <a onClick={() => this.toggleEditing()}>Edit | </a>
+                        <a onClick={() => this.props.deletePostComment(this.props.comment)}>Delete | </a>
                     </div>  
                         : ''
                     }

@@ -235,6 +235,34 @@ class App extends Component {
       this.fetchUser();
       this.fetchPost(comment.post_id)})
   }
+
+  voteOnPost = (post, upvoted) => {
+    let params;
+    const token = localStorage.getItem('token')
+    if (upvoted) {
+      params = {
+        upvotes: post.upvotes + 1
+      }
+    }
+    else {
+      params = {
+        downvotes: post.downvotes + 1
+      }
+    }
+    fetch(`http://localhost:3000/api/v1/posts/${post.id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${token}`
+
+      },
+      body: JSON.stringify(params)
+    }).then(res => res.json())
+    .then(json => {
+      console.log(json)
+    })
+  }
   
   render() {   
     return (
@@ -250,7 +278,9 @@ class App extends Component {
           <Route exact path="/f/create" 
           render={() => <CreateForum fetchSubforums={this.fetchSubforums}/>}
           />
-          <Route exact path="/" render={() => <FrontPage setPost={this.setPost} posts={this.state.posts}/>}/>
+          <Route exact path="/" render={() => <FrontPage setPost={this.setPost} 
+          voteOnPost={this.voteOnPost}
+          posts={this.state.posts}/>}/>
           <Route exact path="/login" 
           render={() => <LoginForm updateUserInfo={this.updateUserInfo}/> }
           />
@@ -264,7 +294,8 @@ class App extends Component {
           <Route exact path="/f/:name/:id" render={() => <Subforum
           currentUser={this.state.currentUser}
           subforum={this.state.selectedSubforum}
-          setPost={this.setPost}/>
+          setPost={this.setPost}
+          voteOnPost={this.voteOnPost}/>
         }
           />
           <Route exact path="/f/:name/:id/p/new" 
