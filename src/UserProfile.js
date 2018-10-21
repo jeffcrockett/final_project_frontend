@@ -18,7 +18,7 @@ class UserProfile extends React.Component {
     }
 
     componentDidMount = () => {
-        debugger
+
         this.getUserFromUrl()
     }
     
@@ -36,7 +36,6 @@ class UserProfile extends React.Component {
 
     componentDidUpdate(prevProps) {
         if (this.props !== prevProps) {
-            debugger
         }
     }
 
@@ -73,6 +72,24 @@ class UserProfile extends React.Component {
         }).then(res => res.json())
             .then(json => this.getUserFromUrl())
     }
+
+    deleteProfilePost = (id)  => {
+        const token = localStorage.getItem('token')
+        fetch(`http://localhost:3000/api/v1/posts/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({id: id})
+        }).then(res => res.json())
+        .then(json => {
+            console.log(json)
+            this.getUserFromUrl();
+        
+        })
+    }
     
     
     
@@ -93,22 +110,23 @@ class UserProfile extends React.Component {
                 </div>
                 { this.state.viewing === 'posts' ?
                 <div>
-                    Posts
                     {this.state.user && this.state.user.posts.map(post => 
                         <PostCard post={post}
                         currentUser={this.props.currentUser}
-                        saveProfilePost={this.saveProfilePost}/>
+                        saveProfilePost={this.saveProfilePost}
+                        deleteProfilePost={this.deleteProfilePost}/>
                     )
                     }
                 </div>
                 : 
                 <div>
-                    Comments
                     {this.state.user && this.state.user.comments.map(comment => 
                         <Comment comment={comment}
                             savePostComment={this.props.savePostComment}
                             saveProfileComment={this.saveProfileComment}
+                            voteOnComment={this.props.voteOnComment}
                             deletePostComment={this.props.deletePostComment}
+                            getUserFromUrl={this.getUserFromUrl}
                             currentUser={this.props.currentUser} />
                         )}
                 </div>

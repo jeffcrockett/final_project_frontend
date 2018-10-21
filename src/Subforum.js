@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { withRouter } from 'react-router-dom'
 import { Grid, Image } from 'semantic-ui-react'
 import PostGrid from './PostGrid'
+import Sorter from './Sorter'
 
 class Subforum extends React.Component {
     constructor(props) {
@@ -43,14 +44,15 @@ class Subforum extends React.Component {
     render() {
         return (
             <div>
+                {/* <Sorter/> */}
                 { this.state.subforum &&
                 <div>
                 <h1>{this.state.subforum.name}</h1>
-                { this.props.currentUser &&
+                {/* { this.props.currentUser &&
                 <Link to={`/f/${this.state.subforum.name}/${this.state.subforum.id}/p/new`}>
                     <h3>New post</h3>
                 </Link>
-                }
+                } */}
                 </div>
                 }
             { this.state.subforum && this.state.subforum.posts.map(post =>

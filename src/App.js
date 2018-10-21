@@ -27,7 +27,8 @@ class App extends Component {
     currentUser: null,
     subforums: [],
     selectedSubforum: 'asdf',
-    posts: []
+    posts: [],
+    frontPagePosts: []
   }
 
   updateUserInfo = currentUser => {
@@ -40,9 +41,22 @@ class App extends Component {
     .then(subforums => {
  
       this.setState({
-      subforums: subforums
+        subforums: subforums,
+    })
+      this.setState({
+        subforumOptions: this.state.subforums.map(s => {
+            let abbrev = s.name.slice(0, 2).toLowerCase()
+            return { key: abbrev, value: abbrev, text: s.name }
+          })
     })
   })
+  }
+
+  fetchFrontPage = () => {
+    fetch('http://localhost:3000/api/v1/frontpage')
+    .then(res => res.json()).then(json => this.setState({
+      frontPagePosts: json
+    }))
   }
 
   fetchUser = () => {
@@ -92,16 +106,18 @@ class App extends Component {
           // this.props.history.push("/");
         });
     }
-    this.fetchAllPosts()
+    // this.fetchAllPosts()
     this.fetchSubforums()
+    this.fetchFrontPage()
   }
 
   createPost = (formData) => {
+    debugger
     const token = localStorage.getItem('token')
     const params = {
       title: formData.title,
       content: formData.content,
-      subforum_id: this.state.selectedSubforum.id,
+      subforum_id: formData.subforumId,
       user_id: this.state.currentUser.id
     }
     fetch('http://localhost:3000/api/v1/posts', {
@@ -118,7 +134,7 @@ class App extends Component {
           selectedPost: post 
         })
         console.log(post)
-        this.props.history.push(`/f/${this.state.selectedSubforum.name}/p/${post.id}`)
+        this.props.history.push(`/f/${formData.subforumName}/${formData.subforumId}/p/${post.id}`)
       })
   }
 
@@ -263,6 +279,34 @@ class App extends Component {
       console.log(json)
     })
   }
+
+  voteOnComment = (comment, upvoted) => {
+    let params;
+    const token = localStorage.getItem('token')
+    if (upvoted) {
+      params = {
+        upvotes: comment.upvotes + 1
+      }
+    }
+    else {
+      params = {
+        downvotes: comment.downvotes + 1
+      }
+    }
+    fetch(`http://localhost:3000/api/v1/comments/${comment.id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${token}`
+
+      },
+      body: JSON.stringify(params)
+    }).then(res => res.json())
+      .then(json => {
+        console.log(json)
+      })
+  }
   
   render() {   
     return (
@@ -270,7 +314,8 @@ class App extends Component {
         <Header currentUser={this.state.currentUser}
         logout={this.logout}
         subforums={this.state.subforums}
-        setSubforum={this.setSubforum}/>
+        setSubforum={this.setSubforum}
+        subforumOptions={this.state.subforumOptions}/>
       <Grid>
         <Grid.Column width={13}>
         <Grid.Row>
@@ -280,7 +325,7 @@ class App extends Component {
           />
           <Route exact path="/" render={() => <FrontPage setPost={this.setPost} 
           voteOnPost={this.voteOnPost}
-          posts={this.state.posts}/>}/>
+          posts={this.state.frontPagePosts}/>}/>
           <Route exact path="/login" 
           render={() => <LoginForm updateUserInfo={this.updateUserInfo}/> }
           />
@@ -289,6 +334,7 @@ class App extends Component {
           <Route exact path="/users/:id" render={() => <UserProfile 
           currentUser={this.state.currentUser}
           savePostComment ={this.savePostComment}
+          voteOnComment={this.voteOnComment}
           deletePostComment={this.deletePostComment}/>} />
           <Route exact path="/comments" component={CommentsContainer}/>
           <Route exact path="/f/:name/:id" render={() => <Subforum
@@ -305,6 +351,7 @@ class App extends Component {
           <Route exact path="/f/:name/:id/p/:id" render={() => <Post 
           post={this.state.selectedPost}
           postComment={this.postComment}
+          voteOnComment={this.voteOnComment}
           deletePostComment={this.deletePostComment}
           savePostComment={this.savePostComment}
           currentUser={this.state.currentUser}/>}/>
@@ -313,7 +360,7 @@ class App extends Component {
         </Grid.Column>
         <Grid.Column width={3}>
         <Grid.Row>
-          <Sidebar/>
+          <Sidebar currentUser={this.state.currentUser} subforums={this.state.subforums}/>
           </Grid.Row>
         </Grid.Column>
         </Grid>

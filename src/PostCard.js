@@ -1,4 +1,5 @@
 import React from 'react'
+import { Form, TextArea } from 'semantic-ui-react'
 
 class PostCard extends React.Component {
     constructor(props) {
@@ -32,26 +33,26 @@ class PostCard extends React.Component {
                             {this.props.post.content}
                         </p>
                         :
-                        <p>
-                            <textarea
+                        <Form>
+                            <TextArea
                                 onChange={(e) => this.handleOnChange(e)}
                                 name="postContent"
                                 value={this.state.postContent}>
-                            </textarea><br />
+                            </TextArea><br />
                             <a onClick={() => {
                                 debugger
                                 this.toggleEditing();
                                 this.props.saveProfilePost(this.state.postContent, this.props.post.id);
                             }}>
                                 Save</a>
-                        </p>
+                        </Form>
                     }
                     {
                         this.props.currentUser && this.props.currentUser.id === this.props.post.user.id
                             ?
                             <div class='extra content'>
                                 <a onClick={() => this.toggleEditing()}>Edit | </a>
-                                <a onClick={() => () => console.log('deleting...')}>Delete</a>
+                                <a onClick={() => this.props.deleteProfilePost(this.props.post.id)}>Delete</a>
                             </div>
                             : ''
                     }

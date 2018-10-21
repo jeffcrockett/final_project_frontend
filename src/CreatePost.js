@@ -9,7 +9,9 @@ class CreatePost extends React.Component {
 
     state = {
         title: '',
-        content: ''
+        content: '',
+        subforumName: this.props.match.url.split('/')[2],
+        subforumId: this.props.match.url.split('/')[3]
     }
 
     handleOnChange = (e) => {
@@ -19,6 +21,7 @@ class CreatePost extends React.Component {
     }
 
     render() {
+      
         return (
             <Form onSubmit={(e) => {
                 e.preventDefault()

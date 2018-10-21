@@ -1,4 +1,4 @@
-import React from 'react'
+ import React, { Fragment } from 'react'
 import { Grid } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 
@@ -68,9 +68,14 @@ class PostGrid extends React.Component {
                                 }><i class="arrow circle down icon"></i></div>
                         </Grid.Column>
                         <Grid.Column width={13}>
-                            <Link style={{ display: 'flex' }} to={`/f/${this.props.post.subforum.name}/${this.props.post.subforum.id}/p/${this.props.post.id}`}>
-                                <h3>{this.props.post.title}</h3>
-                            </Link>
+                            <Fragment>
+                                <Link style={{ display: 'flex' }} to={`/f/${this.props.post.subforum.name}/${this.props.post.subforum.id}/p/${this.props.post.id}`}>
+                                    <h3>{this.props.post.title}</h3>
+                                </Link>
+                                    <p style={{display: 'flex'}}>submitted by 
+                                    <Link to={`/users/${this.props.post.user.id}`}>&nbsp;{this.props.post.user.username}&nbsp;</Link>
+                                    to <Link to={`/f/${this.props.post.subforum.name}/${this.props.post.subforum.id}`}>&nbsp;{this.props.post.subforum.name}</Link></p>
+                            </Fragment>
                         </Grid.Column>
                     </Grid.Row>
             </Grid>

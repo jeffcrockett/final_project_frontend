@@ -174,6 +174,7 @@ class Post extends React.Component {
                 <Comment comment={comment}
                 submitReply={this.submitReply}
                 savePostComment={this.props.savePostComment}
+                voteOnComment={this.props.voteOnComment}
                 deletePostComment={this.props.deletePostComment}
                 currentUser={this.props.currentUser}/>)}
                 

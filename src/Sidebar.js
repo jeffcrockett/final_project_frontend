@@ -18,7 +18,9 @@ class Sidebar extends React.Component {
                     url[1] === 'f' && url[2] !== 'create' && url[2] !== 'new' ? 
                     <Fragment>
                         <Link to={`/f/${url[2]}/${url[3]}`}><h3>{url[2]}</h3></Link>
+                        { this.props.currentUser &&
                         <Link to={`/f/${url[2]}/${url[3]}/p/new`}><h5>New post</h5></Link> 
+                        }
                     </Fragment>
                     : ''
                 }

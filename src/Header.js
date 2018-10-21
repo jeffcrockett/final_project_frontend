@@ -7,17 +7,26 @@ export default class Header extends React.Component {
     constructor(props) {
         super(props)
     }
-
+//{ key: 'af', value: 'af', flag: 'af', text: 'Afghanistan' }
     state = {
         value: '',
-        filteredSubforumTitles: []
+        
+    
     }
 
-    filterSubforums = (e) => {
-        this.setState({
-            value: e.target.value
-        })
-    }
+    // filterSubforums = (e) => {
+    //     this.setState({
+    //         value: e.target.value
+    //     })
+    //     console.log(this.props.subforums)
+    //     let regex = new RegExp(e.target.value, 'i')
+    //     console.log(regex)
+    //     this.setState({
+    //         filteredSubforums: this.props.subforums.filter(subforum =>
+    //             subforum.name.match(regex))
+    //     })
+    //     console.log(this.state.filteredSubforums)
+    // }
 
 
     handleItemClick = (e, { name }) => this.setState({ activeItem: name })
@@ -41,7 +50,11 @@ export default class Header extends React.Component {
                     {/* <input type="text" 
                     value={this.state.value}
                     onChange={(e) => this.filterSubforums(e)}/> */}
-                    <Dropdown text='Forums'>
+                    {/* <Dropdown placeholder='Select forum' 
+                    onChange={(e) => console.log(e)}
+                    fluid search selection options={this.props.subforumOptions} /> */}
+                   
+                           <Dropdown text='Forums' active visible>
                         <Dropdown.Menu>
                             <Dropdown.Item>
                                 <Link to="/f/create">
@@ -56,18 +69,9 @@ export default class Header extends React.Component {
                             )}
 
                         </Dropdown.Menu>
-                    </Dropdown>
-                </Menu.Item>
-                {/* <Menu.Item
-                    name='editorials'
-                    active={activeItem === 'editorials'}
-                    onClick={this.handleItemClick}
-                >
-                    Editorials
-                </Menu.Item>
-                <Menu.Item name='reviews' active={activeItem === 'reviews'} onClick={this.handleItemClick}>
-                    Reviews
-                </Menu.Item> */}
+                     </Dropdown>
+                </Menu.Item> 
+
                 { 
                     !this.props.currentUser 
                 ?
@@ -117,7 +121,6 @@ export default class Header extends React.Component {
                 </div>
 
                 }
-   
             </Menu>
         )
     }
