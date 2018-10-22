@@ -1,5 +1,6 @@
 import React from 'react'
 import { Form, TextArea } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
 
 class PostCard extends React.Component {
     constructor(props) {
@@ -28,6 +29,7 @@ class PostCard extends React.Component {
             <div>
                 <div class="ui raised padded text container segment">
                     <h3>{this.props.post.title}</h3>
+                    <h5>submitted to <Link to={`/f/${this.props.post.subforum.name}/${this.props.post.subforum.id}`}>&nbsp;{this.props.post.subforum.name}</Link></h5>
                     {!this.state.editing ?
                         <p>
                             {this.props.post.content}

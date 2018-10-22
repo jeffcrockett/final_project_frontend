@@ -1,7 +1,7 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
 import { Link } from 'react-router-dom'
-import { Fragment } from 'react'
+import { Fragment, Button } from 'react'
 
 class Sidebar extends React.Component {
     componentDidMount = () => {
@@ -23,6 +23,17 @@ class Sidebar extends React.Component {
                         }
                     </Fragment>
                     : ''
+                }
+
+                {
+                    this.props.currentUser && 
+                    <Fragment>
+                    <h3>Subscriptions:</h3>
+                    {this.props.currentUser.subforums.map(
+                        s => <Link to={`/f/${s.name}/${s.id}`}
+                        onClick={() => this.props.setSubforum(s)}><h4>{s.name}</h4></Link>
+                    )}
+                    </Fragment>
                 }
             </div>
         )

@@ -112,7 +112,6 @@ class App extends Component {
   }
 
   createPost = (formData) => {
-    debugger
     const token = localStorage.getItem('token')
     const params = {
       title: formData.title,
@@ -340,6 +339,7 @@ class App extends Component {
           <Route exact path="/f/:name/:id" render={() => <Subforum
           currentUser={this.state.currentUser}
           subforum={this.state.selectedSubforum}
+          fetchUser={this.fetchUser}
           setPost={this.setPost}
           voteOnPost={this.voteOnPost}/>
         }
@@ -360,7 +360,8 @@ class App extends Component {
         </Grid.Column>
         <Grid.Column width={3}>
         <Grid.Row>
-          <Sidebar currentUser={this.state.currentUser} subforums={this.state.subforums}/>
+          <Sidebar currentUser={this.state.currentUser} subforums={this.state.subforums}
+          setSubforum={this.setSubforum}/>
           </Grid.Row>
         </Grid.Column>
         </Grid>

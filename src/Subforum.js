@@ -1,5 +1,5 @@
-import React from 'react'
-import { Container, Header } from 'semantic-ui-react'
+import React, { Fragment } from 'react'
+import { Container, Header, Button } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import { withRouter } from 'react-router-dom'
 import { Grid, Image } from 'semantic-ui-react'
@@ -16,6 +16,10 @@ class Subforum extends React.Component {
     }
 
     componentDidMount = () => {
+        this.getSubforumFromUrl()
+    }
+    
+    getSubforumFromUrl = () => {
         const urlId = this.props.match.url.split('/')[3]  
         fetch(`http://localhost:3000/api/v1/subforums/${urlId}`)
         .then(res => res.json())
@@ -40,20 +44,72 @@ class Subforum extends React.Component {
         }
     }
 
+    subscribe = () => {
+        debugger
+        const token = localStorage.getItem('token')
+        const params = {
+            user_id: this.props.currentUser.id,
+            subforum_id: this.state.subforum.id
+        }
+        fetch('http://localhost:3000/api/v1/subscriptions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(params)
+        }).then(res => res.json()).then(json => {
+            debugger
+            this.props.fetchUser()
+        })
+    }
+
+    unsubscribe = () => {
+        const token = localStorage.getItem('token')
+        const params = {
+            user_id: this.props.currentUser.id,
+            subforum_id: this.state.subforum.id
+        }
+        fetch(`http://localhost:3000/api/v1/unsubscribe`, {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(params)
+        }).then(res => res.json())
+        .then(json => {
+            console.log(json)
+            this.props.fetchUser()
+        })
+    }
+
 
     render() {
         return (
             <div>
                 {/* <Sorter/> */}
                 { this.state.subforum &&
-                <div>
+                <Fragment>
                 <h1>{this.state.subforum.name}</h1>
+                {
+                    this.props.currentUser && this.props.currentUser.subforums.map(s => s.id).includes(this.state.subforum.id)
+                    ?
+                    <Button onClick={() => this.unsubscribe()}>Unsubscribe</Button>
+                    :
+                    this.props.currentUser 
+                    ?
+                    <Button onClick={() => this.subscribe()}>Subscribe</Button>
+                    : ''
+                }
                 {/* { this.props.currentUser &&
                 <Link to={`/f/${this.state.subforum.name}/${this.state.subforum.id}/p/new`}>
                     <h3>New post</h3>
                 </Link>
                 } */}
-                </div>
+                </Fragment>
                 }
             { this.state.subforum && this.state.subforum.posts.map(post =>
                 <PostGrid voteOnPost={this.props.voteOnPost}
