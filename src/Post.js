@@ -97,6 +97,7 @@ class Post extends React.Component {
             user_id: this.props.currentUser.id,
             post_id: this.state.post.id
         }
+
         fetch('http://localhost:3000/api/v1/reply', {
             method: 'POST',
             headers: {
@@ -130,7 +131,7 @@ class Post extends React.Component {
                                 <TextArea value={this.state.formContent}
                                 name="formContent"
                                 onChange={(e) => this.handleOnChange(e)}></TextArea>
-                                <a onClick={() => this.editPostContent(this.state.formContent)}>Submit</a>
+                                <a onClick={() => this.editPostContent(this.state.formContent)}>Submit | </a>
                                 <a onClick={() => this.cancelEdit()}>Cancel</a>
                                 </Form>
                             }

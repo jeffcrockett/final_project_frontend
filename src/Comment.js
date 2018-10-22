@@ -1,4 +1,4 @@
-import React from 'react' 
+import React, { Fragment } from 'react' 
 import { Card } from 'semantic-ui-react'
 import { withRouter } from 'react-router-dom'
 import { Grid, Form, TextArea } from 'semantic-ui-react'
@@ -132,7 +132,8 @@ class Comment extends React.Component {
                                     Save</a>
                             
                                 </Form>
-                                }
+                            } { !this.props.match.url.split('/')[1] === 'users' &&
+                                <Fragment>
                                     <a onClick={() => this.toggleReply()}>Reply</a>
                                     {
                                         this.state.replying && this.props.currentUser && 
@@ -150,6 +151,8 @@ class Comment extends React.Component {
                                             
                                         </Form>
                                     }
+                                    </Fragment>
+                                    }
                                 {
                                     this.props.currentUser && this.props.currentUser.id === this.props.comment.user.id 
                                     ?
@@ -160,7 +163,7 @@ class Comment extends React.Component {
                                         if(this.props.match.url.split('/')[1] === 'users') {
                                             this.props.getUserFromUrl()
                                         }
-                                        }}>Delete | </a>
+                                        }}>Delete</a>
                                 </div>  
                                     : ''
                                 }
