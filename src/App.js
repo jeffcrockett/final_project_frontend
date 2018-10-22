@@ -59,6 +59,16 @@ class App extends Component {
     }))
   }
 
+  fetchBackPage = () => {
+    fetch('http://localhost:3000/api/v1/backpage')
+    .then(res => res.json()).then(json => {
+      debugger
+      this.setState({
+      frontPagePosts: json
+    })
+  })
+  }
+
   fetchUser = () => {
     fetch(`http://localhost:3000/api/v1/users/${this.state.currentUser.id}`)
     .then(res => res.json())
@@ -322,7 +332,9 @@ class App extends Component {
           <Route exact path="/f/create" 
           render={() => <CreateForum fetchSubforums={this.fetchSubforums}/>}
           />
-          <Route exact path="/" render={() => <FrontPage setPost={this.setPost} 
+          <Route exact path="/" render={() => <FrontPage setPost={this.setPost}
+          fetchFrontPage={this.fetchFrontPage}
+          fetchBackPage={this.fetchBackPage}
           voteOnPost={this.voteOnPost}
           posts={this.state.frontPagePosts}/>}/>
           <Route exact path="/login" 

@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { Grid, Image } from 'semantic-ui-react'
+import { Grid, Image, Dropdown } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import PostGrid from './PostGrid'
 
@@ -11,6 +11,17 @@ class FrontPage extends React.Component {
     render() {
         return (
             <Fragment>
+                <Dropdown text="Sort by">
+                    <Dropdown.Menu>
+                        <Dropdown.Item onClick={() => this.props.fetchFrontPage()}>
+                            Best
+                            </Dropdown.Item>
+                        <Dropdown.Item onClick={() => this.props.fetchBackPage()}>
+                            Worst
+                        </Dropdown.Item>
+
+                    </Dropdown.Menu>
+                </Dropdown>
                 { this.props.posts.map (post =>
                     <PostGrid 
                     voteOnPost={this.props.voteOnPost}

@@ -12,6 +12,16 @@ class PostGrid extends React.Component {
         downvotes: this.props.post.downvotes
     }
 
+    componentDidUpdate = (prevProps) => {
+        if (this.props !== prevProps) {
+            // debugger
+            this.setState({
+                upvotes: this.props.post.upvotes,
+                downvotes: this.props.post.downvotes
+            })
+        }
+    }
+
     updateFrontEndVotes = (upvoting) => {
         const stateScore = this.state.upvotes - this.state.downvotes
         const propsScore = this.props.post.upvotes - this.props.post.downvotes
