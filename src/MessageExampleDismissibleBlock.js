@@ -14,7 +14,7 @@ class MessageExampleDismissibleBlock extends Component {
                 <Message
                     onDismiss={this.handleDismiss}
                     header='Error'
-                    content="Passwords don't match"
+                    content={this.props.msg}
                 />
             )
         }

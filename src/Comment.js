@@ -103,14 +103,14 @@ class Comment extends React.Component {
                     <Grid.Column width={13}>
                         <div id={this.props.comment.id}>
                         {/* <div class="ui raised text container segment"> */}
-                        <h6>{this.props.comment.replies && this.props.comment.replies.map(reply => 
-                        <a href={`#${reply.id}`}>>>{reply.id} </a>)}</h6>
+                        <p style={{display:'flex'}}>{this.props.comment.replies && this.props.comment.replies.map(reply => 
+                        <a href={`#${reply.id}`}>>>{reply.id} </a>)}</p>
                             { this.props.comment.parent &&
-                            <h4><a href={`#${this.props.comment.parent.id}`}>@{this.props.comment.parent.id}</a></h4>
+                            <h4 style={{display:'flex'}}><a href={`#${this.props.comment.parent.id}`}>@{this.props.comment.parent.id}</a></h4>
                             }
-                                    <h4>{this.props.comment.user.username}</h4>
+                            <h4 style={{ display: 'flex' }}>{this.props.comment.user.username}</h4>
                                 { !this.state.editing ?                
-                                <p>
+                                <p style={{ display: 'flex' }}>
                                     {this.props.comment.content}
                                 </p>
                                 :
@@ -119,7 +119,7 @@ class Comment extends React.Component {
                                     onChange={(e) => this.handleOnChange(e)}
                                     value={this.state.value}>
                                     </TextArea><br/>
-                                    <a onClick={() => {
+                                    <a style={{ display: 'flex' }} onClick={() => {
                                         debugger
                                         this.toggleEditing();
                                         if(this.props.match.url.split('/').includes('users')) {
@@ -156,7 +156,7 @@ class Comment extends React.Component {
                                 {
                                     this.props.currentUser && this.props.currentUser.id === this.props.comment.user.id 
                                     ?
-                                <div class='extra content'>
+                                <div class='extra content' style={{display:'flex'}}>
                                     <a onClick={() => this.toggleEditing()}>Edit | </a>
                                     <a onClick={() => {
                                         this.props.deletePostComment(this.props.comment);

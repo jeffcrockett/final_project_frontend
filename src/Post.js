@@ -121,12 +121,12 @@ class Post extends React.Component {
                  <Grid>
                      <Grid.Column width={13}>
                         <Grid.Row>
-                        <h1>{this.state.post && this.state.post.title}</h1>
-                        <h4>submitted by {this.state.post && this.state.post.user && this.state.post.user.username}</h4>
+                        <h1 style={{ display: 'flex', marginLeft: '30px' }}>{this.state.post && this.state.post.title}</h1>
+                            <h4 style={{ display: 'flex', marginLeft: '30px'  }}>submitted by {this.state.post && this.state.post.user && this.state.post.user.username}</h4>
                         </Grid.Row>
                         <Grid.Row>
                             { !this.state.editing ?       
-                         <p>{this.state.post && this.state.post.content}</p>
+                            <p style={{ display: 'flex', marginLeft: '30px'  }}>{this.state.post && this.state.post.content}</p>
                             : <Form>
                                 <TextArea value={this.state.formContent}
                                 name="formContent"

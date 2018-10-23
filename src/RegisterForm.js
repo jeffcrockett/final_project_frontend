@@ -79,7 +79,7 @@ class RegisterForm extends React.Component {
                         value={this.state.confirmPassword} />
                 </Form.Field>
                 <Button type='submit'>Submit</Button>
-                { this.state.hasErrors ? <MessageExampleDismissibleBlock/> : '' }
+                { this.state.hasErrors ? <MessageExampleDismissibleBlock msg={`Passwords don't match`}/> : '' }
             </Form>
         )
     }

@@ -45,7 +45,6 @@ class Subforum extends React.Component {
     }
 
     subscribe = () => {
-        debugger
         const token = localStorage.getItem('token')
         const params = {
             user_id: this.props.currentUser.id,
