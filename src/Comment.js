@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react' 
 import { Card } from 'semantic-ui-react'
-import { withRouter } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
 import { Grid, Form, TextArea } from 'semantic-ui-react'
 
 class Comment extends React.Component {
@@ -108,7 +108,9 @@ class Comment extends React.Component {
                             { this.props.comment.parent &&
                             <h4 style={{display:'flex'}}><a href={`#${this.props.comment.parent.id}`}>@{this.props.comment.parent.id}</a></h4>
                             }
-                            <h4 style={{ display: 'flex' }}>{this.props.comment.user.username}</h4>
+                            <Link to={`/users/${this.props.comment.user.id}`}>
+                                <h4 style={{ display: 'flex' }}>{this.props.comment.user.username}</h4>
+                            </Link>
                                 { !this.state.editing ?                
                                 <p style={{ display: 'flex' }}>
                                     {this.props.comment.content}
@@ -157,7 +159,7 @@ class Comment extends React.Component {
                                     this.props.currentUser && this.props.currentUser.id === this.props.comment.user.id 
                                     ?
                                 <div class='extra content' style={{display:'flex'}}>
-                                    <a onClick={() => this.toggleEditing()}>Edit | </a>
+                                    <a onClick={() => this.toggleEditing()}>Edit |&nbsp;</a>
                                     <a onClick={() => {
                                         this.props.deletePostComment(this.props.comment);
                                         if(this.props.match.url.split('/')[1] === 'users') {

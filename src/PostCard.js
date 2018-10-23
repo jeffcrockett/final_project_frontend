@@ -28,7 +28,9 @@ class PostCard extends React.Component {
         return (
             <div>
                 <div class="ui raised padded text container segment">
-                    <h3 style={{display: 'flex'}}>{this.props.post.title}</h3>
+                    <Link to={`/f/${this.props.post.subforum.name}/${this.props.post.subforum.id}/p/${this.props.post.id}`}>
+                        <h3 style={{display: 'flex'}}>{this.props.post.title}</h3>
+                    </Link>
                     <h5 style={{ display: 'flex' }}>submitted to <Link to={`/f/${this.props.post.subforum.name}/${this.props.post.subforum.id}`}>&nbsp;{this.props.post.subforum.name}</Link></h5>
                     {!this.state.editing ?
                         <p style={{ display: 'flex' }}>
@@ -54,7 +56,7 @@ class PostCard extends React.Component {
                         this.props.currentUser && this.props.currentUser.id === this.props.post.user.id
                             ?
                             <div style={{ display: 'flex' }} class='extra content'>
-                                <a onClick={() => this.toggleEditing()}>Edit | </a>
+                                <a onClick={() => this.toggleEditing()}>Edit |&nbsp;</a>
                                 <a onClick={() => this.props.deleteProfilePost(this.props.post.id)}>Delete</a>
                             </div>
                             : ''

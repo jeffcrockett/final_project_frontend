@@ -139,8 +139,9 @@ class Post extends React.Component {
                          this.state.post.user.id === this.props.currentUser.id &&
                          <div>
                              { !this.state.editing ? 
-                            <div><a onClick={() => this.triggerEdit()}>Edit | </a>
-                            <a>Delete</a>
+                            <div style={{display:'flex', marginLeft:'30px'}}>
+                                <a onClick={() => this.triggerEdit()}>Edit |&nbsp;</a>
+                                <a>Delete</a>
                             </div>
                              : ''}
                         </div>

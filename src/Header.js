@@ -46,7 +46,11 @@ export default class Header extends React.Component {
                         Front
                     </Menu.Item>
                 </Link> 
-                <Menu.Item right>
+                <Menu.Item
+                    name='dropdown'
+                    // position='right'
+                    active={activeItem === 'dropdown'}
+                    onClick={this.handleItemClick}>
                     {/* <input type="text" 
                     value={this.state.value}
                     onChange={(e) => this.filterSubforums(e)}/> */}

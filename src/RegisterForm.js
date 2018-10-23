@@ -8,7 +8,8 @@ class RegisterForm extends React.Component {
         username: '',
         password: '',
         confirmPassword: '',
-        hasErrors: false
+        hasErrors: false,
+        errorMessage: ''
     }
 
     handleOnChange = (e) => {
@@ -22,7 +23,8 @@ class RegisterForm extends React.Component {
         if (this.state.password !== this.state.confirmPassword) {
             console.log("Passwords don't match");
             this.setState({
-                hasErrors: true
+                hasErrors: true,
+                errorMessage: "Passwords don't match"
             })
             return;
         }
@@ -79,7 +81,7 @@ class RegisterForm extends React.Component {
                         value={this.state.confirmPassword} />
                 </Form.Field>
                 <Button type='submit'>Submit</Button>
-                { this.state.hasErrors ? <MessageExampleDismissibleBlock msg={`Passwords don't match`}/> : '' }
+                { this.state.hasErrors ? <MessageExampleDismissibleBlock msg={this.state.errorMessage}/> : '' }
             </Form>
         )
     }

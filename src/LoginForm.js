@@ -1,6 +1,7 @@
 import React from 'react'
 import { Button, Checkbox, Form } from 'semantic-ui-react'
 import { withRouter } from 'react-router-dom'
+import MessageExampleDismissibleBlock from './MessageExampleDismissibleBlock'
 
 class LoginForm extends React.Component {
     constructor(props) {
@@ -8,7 +9,9 @@ class LoginForm extends React.Component {
     }
     state = {
         username: '',
-        password: ''
+        password: '',
+        hasErrors: false,
+        errorMessage: ''
 
     }
 
@@ -33,6 +36,14 @@ class LoginForm extends React.Component {
         })
             .then(r => r.json())
             .then(response => {
+                debugger
+                if (response.message === "Invalid username or password") {
+                    this.setState({
+                        hasErrors: true,
+                        errorMessage: 'User not found'
+                    })
+                    return;
+                }
                 localStorage.setItem("token", response.jwt);
                 // console.log(response);
                 this.props.updateUserInfo(response.user);
@@ -60,6 +71,7 @@ class LoginForm extends React.Component {
                     value={this.state.password} />
                 </Form.Field>
                 <Button type='submit'>Submit</Button>
+                {this.state.hasErrors ? <MessageExampleDismissibleBlock msg={this.state.errorMessage} /> : ''}
             </Form>
         )
     }
