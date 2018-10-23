@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, TextArea } from 'semantic-ui-react'
+import { Form, TextArea, Grid } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 
 class PostCard extends React.Component {
@@ -26,16 +26,18 @@ class PostCard extends React.Component {
 
     render() {
         return (
-            <div>
-                <div class="ui raised padded text container segment">
-                    <Link to={`/f/${this.props.post.subforum.name}/${this.props.post.subforum.id}/p/${this.props.post.id}`}>
-                        <h3 style={{display: 'flex'}}>{this.props.post.title}</h3>
-                    </Link>
-                    <h5 style={{ display: 'flex' }}>submitted to <Link to={`/f/${this.props.post.subforum.name}/${this.props.post.subforum.id}`}>&nbsp;{this.props.post.subforum.name}</Link></h5>
-                    {!this.state.editing ?
-                        <p style={{ display: 'flex' }}>
+            <Grid celled>
+                <Grid.Row>
+                    <Grid.Column width={16}>               
+                       
+                        <Link to={`/f/${this.props.post.subforum.name}/${this.props.post.subforum.id}/p/${this.props.post.id}`}>
+                            <h3 style={{display: 'flex'}}>{this.props.post.title}</h3>
+                        </Link>
+                        <h5 style={{ display: 'flex' }}>submitted to <Link to={`/f/${this.props.post.subforum.name}/${this.props.post.subforum.id}`}>&nbsp;{this.props.post.subforum.name}</Link></h5>
+                        {!this.state.editing ?
+                            <p style={{ display: 'flex' }}>
                             {this.props.post.content}
-                        </p>
+                            </p>
                         :
                         <Form>
                             <TextArea
@@ -61,10 +63,10 @@ class PostCard extends React.Component {
                             </div>
                             : ''
                     }
-                </div>
-
-
-            </div>
+            
+                    </Grid.Column>
+                </Grid.Row>
+            </Grid>
         )
     }
 }
