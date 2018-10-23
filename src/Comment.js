@@ -14,7 +14,9 @@ class Comment extends React.Component {
         value: this.props.comment.content,
         replyContent: '',
         upvotes: this.props.comment.upvotes,
-        downvotes: this.props.comment.downvotes
+        downvotes: this.props.comment.downvotes,
+        orange: false,
+        blue: false
     }
 
     handleOnChange = (e) => {
@@ -52,6 +54,10 @@ class Comment extends React.Component {
         const propsScore = this.props.comment.upvotes - this.props.comment.downvotes
         console.log(stateScore, propsScore)
         if (upvoting) {
+            this.setState({
+                orange: true,
+                blue: false
+            })
             if (stateScore === propsScore) {
                 this.setState({
                     upvotes: this.state.upvotes + 1
@@ -64,6 +70,10 @@ class Comment extends React.Component {
             }
         }
         else {
+            this.setState({
+                orange: false,
+                blue: true
+            })
             if (stateScore === propsScore) {
                 this.setState({
                     downvotes: this.state.downvotes + 1
@@ -92,7 +102,7 @@ class Comment extends React.Component {
                                 // })
                                 this.updateFrontEndVotes(true)
                             }
-                            }><i class="arrow circle up icon"></i></div>
+                            }><i class={`arrow ${this.state.orange ? 'orange' : ''} circle up icon`}></i></div>
                         {this.state.upvotes - this.state.downvotes}
                         <div class="column"
                             onClick={() => {
@@ -102,7 +112,7 @@ class Comment extends React.Component {
                                 // })
                                 this.updateFrontEndVotes(false)
                             }
-                            }><i class="arrow circle down icon"></i></div>
+                            }><i class={`arrow ${this.state.blue ? 'blue' : ''} circle down icon`}></i></div>
                     </Grid.Column>
                     }
         
@@ -111,15 +121,15 @@ class Comment extends React.Component {
                         <div id={this.props.comment.id}>
                         { !this.onUserPage() ?
                         <Fragment>
-                            <p style={{display:'flex'}}>{this.props.comment.replies && this.props.comment.replies.map(reply => 
+                            <p style={{display:'flex'}}>{this.props.comment.replies.length > 0 ? 'Replies:' : ''} &nbsp;{this.props.comment.replies && this.props.comment.replies.map(reply => 
                             <a href={`#${reply.id}`}>>>{reply.id} </a>)}</p>
                             { this.props.comment.parent &&
-                            <h4 style={{display:'flex'}}><a href={`#${this.props.comment.parent.id}`}>@{this.props.comment.parent.id}</a></h4>
+                            <h4 style={{display:'flex'}}>Replying to &nbsp; <a href={`#${this.props.comment.parent.id}`}>@{this.props.comment.parent.id}</a></h4>
                             }
                         </Fragment>
                         : this.props.comment.post ?
                         <Fragment>
-                            <p style={{ display: 'flex' }}><Link to={`/f/${this.props.comment.post.subforum.name}/${this.props.comment.post.subforum.id}/p/${this.props.comment.post.id}`}>{this.props.comment.post.title}</Link>submitted by
+                            <p style={{ display: 'flex' }}><Link to={`/f/${this.props.comment.post.subforum.name}/${this.props.comment.post.subforum.id}/p/${this.props.comment.post.id}`}>{this.props.comment.post.title}</Link>&nbsp;submitted by
                             <Link to={`/users/${this.props.comment.post.user.id}`}>&nbsp;{this.props.comment.post.user.username}&nbsp;</Link>
                             to <Link to={`/f/${this.props.comment.post.subforum.name}/${this.props.comment.post.subforum.id}`}>&nbsp;{this.props.comment.post.subforum.name}</Link></p>
                         </Fragment>
@@ -152,7 +162,7 @@ class Comment extends React.Component {
                                     Save</a>
                             
                                 </Form>
-                            } { this.onUserPage() &&
+                            } { !this.onUserPage() &&
                                 <Fragment>
                                     <a onClick={() => this.toggleReply()}>Reply</a>
                                     {
@@ -167,6 +177,7 @@ class Comment extends React.Component {
                                                     replying: false
                                                 })
                                                 this.props.submitReply(this.state.replyContent, this.props.comment.id)
+                                                this.props.getPostFromUrl()
                                             }}>Submit</a>
                                             
                                         </Form>

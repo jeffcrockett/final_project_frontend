@@ -162,7 +162,9 @@ class Post extends React.Component {
                 <Form onSubmit={(e) => {
                     console.log('submitting...')
                     e.preventDefault();
-                    e.target.reset();
+                    this.setState({
+                        comment: ''
+                    })
                     this.props.postComment(this.state.comment, this.state.post.id)
                 }}>
                     <TextArea placeholder='Write a comment' 
@@ -174,6 +176,7 @@ class Post extends React.Component {
                 
                 {this.state.post && this.state.post.comments.map(comment => 
                 <Comment comment={comment}
+                getPostFromUrl={this.getPostFromUrl}
                 submitReply={this.submitReply}
                 savePostComment={this.props.savePostComment}
                 voteOnComment={this.props.voteOnComment}

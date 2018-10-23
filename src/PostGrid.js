@@ -9,7 +9,9 @@ class PostGrid extends React.Component {
 
     state = {
         upvotes: this.props.post.upvotes,
-        downvotes: this.props.post.downvotes
+        downvotes: this.props.post.downvotes,
+        orange: false,
+        blue: false,
     }
 
     componentDidUpdate = (prevProps) => {
@@ -27,6 +29,10 @@ class PostGrid extends React.Component {
         const propsScore = this.props.post.upvotes - this.props.post.downvotes
         console.log(stateScore, propsScore)
         if (upvoting) {
+            this.setState({
+                orange: true,
+                blue: false
+            })
             if (stateScore === propsScore) {
                 this.setState({
                     upvotes: this.state.upvotes + 1
@@ -39,6 +45,10 @@ class PostGrid extends React.Component {
             } 
         }
         else {
+            this.setState({
+                orange: false,
+                blue: true
+            })
             if (stateScore === propsScore) {
                 this.setState({
                     downvotes: this.state.downvotes + 1
@@ -65,7 +75,7 @@ class PostGrid extends React.Component {
                                 // })
                                 this.updateFrontEndVotes(true)
                             }
-                                }><i class="arrow circle up icon"></i></div>
+                                }><i class={`arrow ${this.state.orange ? 'orange' : ''} circle up icon`}></i></div>
                             {this.state.upvotes - this.state.downvotes}
                             <div class="column"
                             onClick={() => {
@@ -75,7 +85,7 @@ class PostGrid extends React.Component {
                                 // })
                                 this.updateFrontEndVotes(false)
                             }
-                                }><i class="arrow circle down icon"></i></div>
+                                }><i class={`arrow ${this.state.blue ? 'blue' : ''} circle down icon`}></i></div>
                         </Grid.Column>
                         <Grid.Column width={13}>
                             <Fragment>

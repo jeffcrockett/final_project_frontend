@@ -28,7 +28,8 @@ class App extends Component {
     subforums: [],
     selectedSubforum: 'asdf',
     posts: [],
-    frontPagePosts: []
+    frontPagePosts: [],
+    startingIndex: 0
   }
 
   updateUserInfo = currentUser => {
@@ -53,10 +54,24 @@ class App extends Component {
   }
 
   fetchFrontPage = () => {
-    fetch('http://localhost:3000/api/v1/frontpage')
+    fetch(`http://localhost:3000/api/v1/frontpage?range=${this.state.startingIndex}`)
     .then(res => res.json()).then(json => this.setState({
       frontPagePosts: json
     }))
+  }
+
+  fetchNextPage = () => {
+    this.setState({
+      startingIndex: this.state.startingIndex + 25
+    })
+    this.fetchFrontPage()
+  }
+
+  fetchPreviousPage = () => {
+    this.setState({
+      startingIndex: this.state.startingIndex - 25
+    })
+    this.fetchFrontPage()
   }
 
   fetchBackPage = () => {
@@ -333,6 +348,9 @@ class App extends Component {
           render={() => <CreateForum fetchSubforums={this.fetchSubforums}/>}
           />
           <Route exact path="/" render={() => <FrontPage setPost={this.setPost}
+          startingIndex={this.state.startingIndex}
+          fetchNextPage={this.fetchNextPage}
+          fetchPreviousPage={this.fetchPreviousPage}
           fetchFrontPage={this.fetchFrontPage}
           fetchBackPage={this.fetchBackPage}
           voteOnPost={this.voteOnPost}

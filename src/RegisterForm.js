@@ -44,7 +44,14 @@ class RegisterForm extends React.Component {
         })
             .then(r => r.json())
             .then(response => {
-                // debugger;
+                if (response.error) {
+                    this.setState({
+                        hasErrors: true,
+                        errorMessage: 'Failed to create user'
+                    })
+                    return;
+                }
+                debugger;
                 localStorage.setItem("token", response.jwt);
                 console.log(response);
                 this.props.updateUserInfo(response.user);
