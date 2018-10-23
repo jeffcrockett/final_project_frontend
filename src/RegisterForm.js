@@ -1,12 +1,14 @@
 import React from 'react'
 import { Form, Button } from 'semantic-ui-react'
 import { withRouter } from 'react-router-dom'
+import MessageExampleDismissibleBlock from './MessageExampleDismissibleBlock'
 
 class RegisterForm extends React.Component {
     state = {
         username: '',
         password: '',
-        confirmPassword: ''
+        confirmPassword: '',
+        hasErrors: false
     }
 
     handleOnChange = (e) => {
@@ -19,6 +21,9 @@ class RegisterForm extends React.Component {
         console.log(this.state);
         if (this.state.password !== this.state.confirmPassword) {
             console.log("Passwords don't match");
+            this.setState({
+                hasErrors: true
+            })
             return;
         }
         // send the fetch!
@@ -74,6 +79,7 @@ class RegisterForm extends React.Component {
                         value={this.state.confirmPassword} />
                 </Form.Field>
                 <Button type='submit'>Submit</Button>
+                { this.state.hasErrors ? <MessageExampleDismissibleBlock/> : '' }
             </Form>
         )
     }
