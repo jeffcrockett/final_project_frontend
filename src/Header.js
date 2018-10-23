@@ -65,7 +65,7 @@ export default class Header extends React.Component {
                                     New forum
                                 </Link>
                             </Dropdown.Item>
-                            {this.props.subforums.slice(0,10).map(s =>
+                            {this.props.subforums.sort((a, b) => a.name.localeCompare(b.name)).map(s =>
                                 <Link to={`/f/${s.name}/${s.id}`}
                                 onClick={() => this.props.setSubforum(s)}>
                                     <Dropdown.Item text={s.name} />

@@ -44,6 +44,7 @@ class Comment extends React.Component {
     }
 
     toggleReply = () => {
+        debugger
         this.setState({
             replying: !this.state.replying
         })
@@ -162,9 +163,9 @@ class Comment extends React.Component {
                                     Save</a>
                             
                                 </Form>
-                            } { !this.onUserPage() &&
+                            } { !this.onUserPage() && this.props.currentUser &&
                                 <Fragment>
-                                    <a onClick={() => this.toggleReply()}>Reply</a>
+                                    <a style={{display:'flex'}} onClick={() => this.toggleReply()}>Reply</a>
                                     {
                                         this.state.replying && this.props.currentUser && 
                                         <Form>

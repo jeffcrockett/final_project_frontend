@@ -4,11 +4,10 @@ import { Link } from 'react-router-dom'
 import { Fragment, Button } from 'react'
 
 class Sidebar extends React.Component {
+     
     componentDidMount = () => {
-
+         
     }
-
-
 
     render() {
         const url = this.props.history.location.pathname.split('/')

@@ -348,50 +348,51 @@ class App extends Component {
           render={() => <CreateForum fetchSubforums={this.fetchSubforums}/>}
           />
           <Route exact path="/" render={() => <FrontPage setPost={this.setPost}
-          startingIndex={this.state.startingIndex}
-          fetchNextPage={this.fetchNextPage}
-          fetchPreviousPage={this.fetchPreviousPage}
-          fetchFrontPage={this.fetchFrontPage}
-          fetchBackPage={this.fetchBackPage}
-          voteOnPost={this.voteOnPost}
-          posts={this.state.frontPagePosts}/>}/>
+            startingIndex={this.state.startingIndex}
+            fetchNextPage={this.fetchNextPage}
+            fetchPreviousPage={this.fetchPreviousPage}
+            fetchFrontPage={this.fetchFrontPage}
+            fetchBackPage={this.fetchBackPage}
+            voteOnPost={this.voteOnPost}
+            posts={this.state.frontPagePosts}/>}/>
           <Route exact path="/login" 
           render={() => <LoginForm updateUserInfo={this.updateUserInfo}/> }
           />
           <Route exact path="/register"
             render={() => <RegisterForm updateUserInfo={this.updateUserInfo} />} />
           <Route exact path="/users/:id" render={() => <UserProfile 
-          currentUser={this.state.currentUser}
-          savePostComment ={this.savePostComment}
-          voteOnComment={this.voteOnComment}
-          deletePostComment={this.deletePostComment}/>} />
+            currentUser={this.state.currentUser}
+            savePostComment ={this.savePostComment}
+            voteOnComment={this.voteOnComment}
+            deletePostComment={this.deletePostComment}/>} />
           <Route exact path="/comments" component={CommentsContainer}/>
           <Route exact path="/f/:name/:id" render={() => <Subforum
-          currentUser={this.state.currentUser}
-          subforum={this.state.selectedSubforum}
-          fetchUser={this.fetchUser}
-          setPost={this.setPost}
-          voteOnPost={this.voteOnPost}/>
+            currentUser={this.state.currentUser}
+            subforum={this.state.selectedSubforum}
+            fetchUser={this.fetchUser}
+            setPost={this.setPost}
+            voteOnPost={this.voteOnPost}/>
         }
           />
           <Route exact path="/f/:name/:id/p/new" 
-          render={() => <CreatePost 
-          subforumId={this.state.selectedSubforum.id}
-          createPost={this.createPost}/>}/>
+            render={() => <CreatePost 
+            subforumId={this.state.selectedSubforum.id}
+            createPost={this.createPost}/>}/>
           <Route exact path="/f/:name/:id/p/:id" render={() => <Post 
-          post={this.state.selectedPost}
-          postComment={this.postComment}
-          voteOnComment={this.voteOnComment}
-          deletePostComment={this.deletePostComment}
-          savePostComment={this.savePostComment}
-          currentUser={this.state.currentUser}/>}/>
+            post={this.state.selectedPost}
+            postComment={this.postComment}
+            voteOnComment={this.voteOnComment}
+            deletePostComment={this.deletePostComment}
+            savePostComment={this.savePostComment}
+            currentUser={this.state.currentUser}/>}/>
         </Switch>
         </Grid.Row>
         </Grid.Column>
-        <Grid.Column width={3}>
+          <Grid.Column width={3} style={{ border: '1px solid #d4d4d5' }}>
         <Grid.Row>
-          <Sidebar currentUser={this.state.currentUser} subforums={this.state.subforums}
-          setSubforum={this.setSubforum}/>
+              <Sidebar 
+                currentUser={this.state.currentUser} subforums={this.state.subforums}
+                setSubforum={this.setSubforum}/>
           </Grid.Row>
         </Grid.Column>
         </Grid>
