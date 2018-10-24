@@ -8,6 +8,13 @@ class Comment extends React.Component {
         super(props)
     }
 
+    static getDerivedStateFromProps(nextProps, prevState) {
+        return {
+            ...prevState,
+            value: nextProps.comment.content
+        }
+    }
+
     state = {
         editing: false,
         replying: false,
@@ -28,6 +35,12 @@ class Comment extends React.Component {
     onUserPage = () => {
         return this.props.match.url.split('/').includes('users')
     }
+
+    // componentDidMount = () => {
+    //     this.setState({
+    //         value: this.props.comment.content
+    //     })
+    // }
 
 
 

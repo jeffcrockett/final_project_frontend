@@ -11,6 +11,15 @@ class PostCard extends React.Component {
         editing: false,
         postContent: this.props.post.content
     }
+    
+    static getDerivedStateFromProps = (nextProps, prevState) => {
+        return {
+            ...prevState,
+            postContent: nextProps.post.content
+        }
+    }
+
+
 
     toggleEditing = () => {
         this.setState({
@@ -21,6 +30,12 @@ class PostCard extends React.Component {
     handleOnChange = (e) => {
         this.setState({
             [e.target.name]: e.target.value
+        })
+    }
+
+    componentDidMount = () => {
+        this.setState({
+            postContent: this.props.post.content
         })
     }
 
