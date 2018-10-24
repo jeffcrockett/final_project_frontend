@@ -122,10 +122,13 @@ class Comment extends React.Component {
                         <div id={this.props.comment.id}>
                         { !this.onUserPage() ?
                         <Fragment>
-                            <p style={{display:'flex'}}>{this.props.comment.replies.length > 0 ? 'Replies:' : ''} &nbsp;{this.props.comment.replies && this.props.comment.replies.map(reply => 
-                            <a href={`#${reply.id}`}>>>{reply.id} </a>)}</p>
+                            {this.props.comment.replies.length > 0 &&
+                            <p style={{display:'flex'}}>Replies: &nbsp;{this.props.comment.replies && this.props.comment.replies.map(reply => 
+                            <a href={`#${reply.id}`}>>>{reply.id} &nbsp;</a>)}
+                            </p>
+                            }
                             { this.props.comment.parent &&
-                            <h4 style={{display:'flex'}}>Replying to &nbsp; <a href={`#${this.props.comment.parent.id}`}>@{this.props.comment.parent.id}</a></h4>
+                            <p style={{display:'flex'}}>Replying to &nbsp; <a href={`#${this.props.comment.parent.id}`}>@{this.props.comment.parent.id}</a></p>
                             }
                         </Fragment>
                         : this.props.comment.post ?
@@ -165,7 +168,7 @@ class Comment extends React.Component {
                                 </Form>
                             } { !this.onUserPage() && this.props.currentUser &&
                                 <Fragment>
-                                    <a style={{display:'flex'}} onClick={() => this.toggleReply()}>Reply</a>
+                                    <a style={{display:'flex', float: 'left'}} onClick={() => this.toggleReply()}>Reply &nbsp;</a>
                                     {
                                         this.state.replying && this.props.currentUser && 
                                         <Form>
@@ -189,8 +192,12 @@ class Comment extends React.Component {
                                     this.props.currentUser && this.props.currentUser.id === this.props.comment.user.id 
                                     ?
                                 <div class='extra content' style={{display:'flex'}}>
-                                    <a onClick={() => this.toggleEditing()}>Edit |&nbsp;</a>
+                                    <a onClick={() => this.toggleEditing()}>Edit &nbsp;</a>
                                     <a onClick={() => {
+                                        this.setState({
+                                            replying: false,
+                                            editing: false
+                                        })
                                         this.props.deletePostComment(this.props.comment);
                                         if(this.onUserPage()) {
                                             this.props.getUserFromUrl()

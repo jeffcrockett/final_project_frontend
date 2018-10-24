@@ -341,7 +341,7 @@ class App extends Component {
         setSubforum={this.setSubforum}
         subforumOptions={this.state.subforumOptions}/>
       <Grid>
-        <Grid.Column width={13}>
+        <Grid.Column width={this.state.currentUser ? 13 : 16}>
         <Grid.Row>
         <Switch>
           <Route exact path="/f/create" 
@@ -388,6 +388,7 @@ class App extends Component {
         </Switch>
         </Grid.Row>
         </Grid.Column>
+        { this.state.currentUser &&
           <Grid.Column width={3} style={{ border: '1px solid #d4d4d5' }}>
         <Grid.Row>
               <Sidebar 
@@ -395,6 +396,7 @@ class App extends Component {
                 setSubforum={this.setSubforum}/>
           </Grid.Row>
         </Grid.Column>
+        }
         </Grid>
       </div>
     );
