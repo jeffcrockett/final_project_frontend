@@ -9,13 +9,17 @@ class Comment extends React.Component {
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
+        console.log('nextProps is ', nextProps, 'prevState is ', prevState)
+        if(nextProps.comment.id !== prevState.id){
         return {
             ...prevState,
             value: nextProps.comment.content
         }
     }
+    }
 
     state = {
+        id: this.props.comment.id,
         editing: false,
         replying: false,
         value: this.props.comment.content,
@@ -102,7 +106,7 @@ class Comment extends React.Component {
     }
 
     render() {
-       
+       console.log('rendering')
         return (
             <Grid celled>
                 <Grid.Row>
@@ -146,7 +150,7 @@ class Comment extends React.Component {
                         </Fragment>
                         : this.props.comment.post ?
                         <Fragment>
-                            <p style={{ display: 'flex' }}><Link to={`/f/${this.props.comment.post.subforum.name}/${this.props.comment.post.subforum.id}/p/${this.props.comment.post.id}`}>{this.props.comment.post.title}</Link>&nbsp;submitted by
+                                        <p style={{ display: 'flex', background: 'rgb(234, 237, 241)' }}><Link to={`/f/${this.props.comment.post.subforum.name}/${this.props.comment.post.subforum.id}/p/${this.props.comment.post.id}`}>{this.props.comment.post.title}</Link>&nbsp;submitted by
                             <Link to={`/users/${this.props.comment.post.user.id}`}>&nbsp;{this.props.comment.post.user.username}&nbsp;</Link>
                             to <Link to={`/f/${this.props.comment.post.subforum.name}/${this.props.comment.post.subforum.id}`}>&nbsp;{this.props.comment.post.subforum.name}</Link></p>
                         </Fragment>

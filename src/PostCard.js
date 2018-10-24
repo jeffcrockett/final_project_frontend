@@ -8,15 +8,18 @@ class PostCard extends React.Component {
     }
 
     state = {
+        id: this.props.post.id,
         editing: false,
         postContent: this.props.post.content
     }
-    
+
     static getDerivedStateFromProps = (nextProps, prevState) => {
+        if (nextProps.post.id !== prevState.id) {
         return {
             ...prevState,
             postContent: nextProps.post.content
         }
+    }
     }
 
 

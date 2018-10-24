@@ -343,13 +343,13 @@ class App extends Component {
   
   render() {   
     return (
-      <div className="App">
+      <div className="App" style={{background:'#d4d4d5'}}>
         <Header currentUser={this.state.currentUser}
         logout={this.logout}
         subforums={this.state.subforums}
         setSubforum={this.setSubforum}
         searchOptions={this.state.searchOptions}/>
-      <Grid>
+      <Grid style={{background:'white'}}>
         <Grid.Column width={this.state.currentUser ? 13 : 16}>
         <Grid.Row>
         <Switch>

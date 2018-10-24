@@ -127,7 +127,7 @@ class Post extends React.Component {
                         <Grid.Row>
                             { !this.state.editing ?       
                             <p style={{ display: 'flex', marginLeft: '30px', marginBottom: '30px' }}>{this.state.post && this.state.post.content}</p>
-                            : <Form>
+                            : <Form style={{marginLeft:'30px'}}>
                                 <TextArea value={this.state.formContent}
                                 name="formContent"
                                 onChange={(e) => this.handleOnChange(e)}></TextArea>
@@ -170,7 +170,7 @@ class Post extends React.Component {
                     <TextArea placeholder='Write a comment' 
                     onChange={(e) => this.handleOnChange(e)}
                     name="comment" value={this.state.comment}/>
-                    <Button type="submit">Submit</Button>
+                    <Button style={{marginBottom:'60px', marginTop:'15px'}} type="submit">Submit</Button>
                 </Form>
                 }
                 
