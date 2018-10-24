@@ -66,7 +66,7 @@ class PostGrid extends React.Component {
         return (
             <Grid celled>
                     <Grid.Row>
-                        <Grid.Column width={3}>
+                        <Grid.Column width={2}>
                             <div class="column"
                             onClick={() => {
                                 this.props.voteOnPost(this.props.post, true);
@@ -87,7 +87,7 @@ class PostGrid extends React.Component {
                             }
                                 }><i class={`arrow ${this.state.blue ? 'blue' : ''} circle down icon`}></i></div>
                         </Grid.Column>
-                        <Grid.Column width={13}>
+                        <Grid.Column width={14}>
                             <Fragment>
                                 <Link style={{ display: 'flex' }} to={`/f/${this.props.post.subforum.name}/${this.props.post.subforum.id}/p/${this.props.post.id}`}>
                                     <h3>{this.props.post.title}</h3>

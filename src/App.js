@@ -45,9 +45,9 @@ class App extends Component {
         subforums: subforums,
     })
       this.setState({
-        subforumOptions: this.state.subforums.map(s => {
+        searchOptions: this.state.subforums.map(s => {
             let abbrev = s.name.slice(0, 2).toLowerCase()
-            return { key: abbrev, value: abbrev, text: s.name }
+            return { key: s.name, value: s.name, text: s.name, id: s.id }
           })
     })
   })
@@ -77,7 +77,6 @@ class App extends Component {
   fetchBackPage = () => {
     fetch('http://localhost:3000/api/v1/backpage')
     .then(res => res.json()).then(json => {
-      debugger
       this.setState({
       frontPagePosts: json
     })
@@ -115,6 +114,16 @@ class App extends Component {
         this.fetchPost(postId);
       })
   }
+
+  // setSearchOptions = () => {
+  //   debugger
+  //   this.setState({
+  //     searchOptions: this.state.subforums.map(s => {
+  //       let abbrev = s.name.slice(0, 2).toLowerCase()
+  //       return { key: abbrev, value: abbrev, text: s.name, id: s.id }
+  //     })
+  //   })
+  // }
 
   componentDidMount = () => {
     const url = "http://localhost:3000/api/v1/profile";
@@ -339,7 +348,7 @@ class App extends Component {
         logout={this.logout}
         subforums={this.state.subforums}
         setSubforum={this.setSubforum}
-        subforumOptions={this.state.subforumOptions}/>
+        searchOptions={this.state.searchOptions}/>
       <Grid>
         <Grid.Column width={this.state.currentUser ? 13 : 16}>
         <Grid.Row>
@@ -389,7 +398,7 @@ class App extends Component {
         </Grid.Row>
         </Grid.Column>
         { this.state.currentUser &&
-          <Grid.Column width={3} style={{ border: '1px solid #d4d4d5' }}>
+          <Grid.Column width={3} style={{ border: '1px solid #d4d4d5', marginTop: '15px' }}>
         <Grid.Row>
               <Sidebar 
                 currentUser={this.state.currentUser} subforums={this.state.subforums}

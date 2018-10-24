@@ -110,7 +110,7 @@ class Subforum extends React.Component {
                 } */}
                 </Fragment>
                 }
-            { this.state.subforum && this.state.subforum.posts.map(post =>
+            { this.state.subforum && this.state.subforum.posts && this.state.subforum.posts.map(post =>
                 <PostGrid voteOnPost={this.props.voteOnPost}
                 post={post}/>
             ) }

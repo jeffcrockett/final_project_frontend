@@ -14,6 +14,10 @@ export default class Header extends React.Component {
     
     }
 
+    componentDidMount = () => {
+
+    }
+
     // filterSubforums = (e) => {
     //     this.setState({
     //         value: e.target.value
@@ -46,6 +50,9 @@ export default class Header extends React.Component {
                         Front
                     </Menu.Item>
                 </Link> 
+                {/* <Menu.Item>
+                    <Dropdown placeholder='Select Forum' onSelect={(e) => {e.persist(); console.log(e)}} fluid search selection options={this.props.searchOptions} />
+                </Menu.Item> */}
                 <Menu.Item
                     name='dropdown'
                     // position='right'
@@ -65,7 +72,7 @@ export default class Header extends React.Component {
                                     New forum
                                 </Link>
                             </Dropdown.Item>
-                            {this.props.subforums.sort((a, b) => a.name.localeCompare(b.name)).map(s =>
+                            {this.props.subforums && this.props.subforums.sort((a, b) => a.name.localeCompare(b.name)).map(s =>
                                 <Link to={`/f/${s.name}/${s.id}`}
                                 onClick={() => this.props.setSubforum(s)}>
                                     <Dropdown.Item text={s.name} />

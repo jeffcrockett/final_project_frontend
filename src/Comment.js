@@ -44,7 +44,7 @@ class Comment extends React.Component {
     }
 
     toggleReply = () => {
-        debugger
+        console.log('toggling reply...')
         this.setState({
             replying: !this.state.replying
         })
@@ -94,7 +94,7 @@ class Comment extends React.Component {
             <Grid celled>
                 <Grid.Row>
                     { !this.onUserPage() &&
-                    <Grid.Column width={3}>
+                    <Grid.Column width={2}>
                         <div class="column"
                             onClick={() => {
                                 this.props.voteOnComment(this.props.comment, true);
@@ -118,17 +118,17 @@ class Comment extends React.Component {
                     }
         
          
-                    <Grid.Column width={this.onUserPage() ? 16 : 13}>
+                    <Grid.Column width={this.onUserPage() ? 16 : 14}>
                         <div id={this.props.comment.id}>
                         { !this.onUserPage() ?
                         <Fragment>
                             {this.props.comment.replies.length > 0 &&
-                            <p style={{display:'flex'}}>Replies: &nbsp;{this.props.comment.replies && this.props.comment.replies.map(reply => 
+                            <p style={{ display: 'flex', background: 'rgb(234, 237, 241)', padding:'5px'}}>Replies: &nbsp;{this.props.comment.replies && this.props.comment.replies.map(reply => 
                             <a href={`#${reply.id}`}>>>{reply.id} &nbsp;</a>)}
                             </p>
                             }
                             { this.props.comment.parent &&
-                            <p style={{display:'flex'}}>Replying to &nbsp; <a href={`#${this.props.comment.parent.id}`}>@{this.props.comment.parent.id}</a></p>
+                            <p style={{ display: 'flex', background: 'rgb(234, 237, 241)', padding:'5px'}}>Replying to &nbsp; <a href={`#${this.props.comment.parent.id}`}>@{this.props.comment.parent.id}</a></p>
                             }
                         </Fragment>
                         : this.props.comment.post ?
@@ -153,7 +153,7 @@ class Comment extends React.Component {
                                     onChange={(e) => this.handleOnChange(e)}
                                     value={this.state.value}>
                                     </TextArea><br/>
-                                    <a style={{ display: 'flex' }} onClick={() => {
+                                    <a onClick={() => {
                                         debugger
                                         this.toggleEditing();
                                         if(this.onUserPage()) {
@@ -168,7 +168,7 @@ class Comment extends React.Component {
                                 </Form>
                             } { !this.onUserPage() && this.props.currentUser &&
                                 <Fragment>
-                                    <a style={{display:'flex', float: 'left'}} onClick={() => this.toggleReply()}>Reply &nbsp;</a>
+                                    <a style={{display:'flex', cursor: 'pointer'}} onClick={() => this.toggleReply()}>Reply &nbsp;</a>
                                     {
                                         this.state.replying && this.props.currentUser && 
                                         <Form>
@@ -178,10 +178,11 @@ class Comment extends React.Component {
                                             onChange={(e) => this.handleOnChange(e)}/><br/>
                                             <a onClick={() => {
                                                 this.setState({
-                                                    replying: false
+                                                    replying: false,
+                                                    replyContent: ''
                                                 })
                                                 this.props.submitReply(this.state.replyContent, this.props.comment.id)
-                                                this.props.getPostFromUrl()
+                                                // this.props.getPostFromUrl()
                                             }}>Submit</a>
                                             
                                         </Form>

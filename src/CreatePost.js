@@ -27,7 +27,7 @@ class CreatePost extends React.Component {
                 e.preventDefault()
                 this.props.createPost(this.state)
                 }}>
-                <h1>Submit a post to {this.props.match.url.split('/')[2]}</h1>
+                <h1 style={{display:'flex'}}>Submit a post to {this.props.match.url.split('/')[2]}</h1>
                 <Form.Field>
                     Title
                     <Input onChange={this.handleOnChange}
