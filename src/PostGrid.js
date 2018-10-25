@@ -1,5 +1,5 @@
  import React, { Fragment } from 'react'
-import { Grid } from 'semantic-ui-react'
+import { Grid, Segment } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 
 class PostGrid extends React.Component {
@@ -64,6 +64,7 @@ class PostGrid extends React.Component {
 
     render() {
         return (
+            <Segment raised>
             <Grid celled>
                     <Grid.Row>
                         <Grid.Column width={2}>
@@ -99,6 +100,7 @@ class PostGrid extends React.Component {
                         </Grid.Column>
                     </Grid.Row>
             </Grid>
+            </Segment>
         )
     }
 }

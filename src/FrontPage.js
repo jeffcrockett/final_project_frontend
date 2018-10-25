@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { Grid, Image, Dropdown, Button } from 'semantic-ui-react'
+import { Grid, Image, Dropdown, Button, Segment} from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import PostGrid from './PostGrid'
 
@@ -10,7 +10,7 @@ class FrontPage extends React.Component {
 
     render() {
         return (
-            <Fragment>
+            <Segment raised>
                 {/* <Dropdown text="Sort by">
                     <Dropdown.Menu>
                         <Dropdown.Item onClick={() => this.props.fetchFrontPage()}>
@@ -31,7 +31,7 @@ class FrontPage extends React.Component {
                 <Button onClick={() => this.props.fetchPreviousPage()}>Previous</Button>
                 }
                 <Button onClick={() => this.props.fetchNextPage()}>Next</Button>
-            </Fragment>
+            </Segment>
             // <Grid celled>
             //     <Grid.Row>
             //         <Grid.Column width={3}>

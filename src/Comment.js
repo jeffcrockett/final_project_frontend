@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react' 
 import { Card } from 'semantic-ui-react'
 import { withRouter, Link } from 'react-router-dom'
-import { Grid, Form, TextArea } from 'semantic-ui-react'
+import { Grid, Form, TextArea, Segment } from 'semantic-ui-react'
 
 class Comment extends React.Component {
     constructor(props) {
@@ -108,6 +108,7 @@ class Comment extends React.Component {
     render() {
        console.log('rendering')
         return (
+            <Segment raised>
             <Grid celled>
                 <Grid.Row>
                     { !this.onUserPage() &&
@@ -231,6 +232,7 @@ class Comment extends React.Component {
                 </Grid.Row>
 
         </Grid>
+        </Segment>
  
         )
     }

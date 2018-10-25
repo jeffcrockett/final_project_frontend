@@ -2,11 +2,12 @@ import React from 'react'
 import { withRouter } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { Fragment, Button } from 'react'
+import { Segment } from 'semantic-ui-react'
 
 class Sidebar extends React.Component {
      
     componentDidMount = () => {
-         
+
     }
 
     render() {
@@ -30,7 +31,8 @@ class Sidebar extends React.Component {
                     <h3>Subscriptions:</h3>
                     {this.props.currentUser.subforums.map(
                         s => <Link to={`/f/${s.name}/${s.id}`}
-                        onClick={() => this.props.setSubforum(s)}><h4>{s.name}</h4></Link>
+                        onClick={() => this.props.setSubforum(s)}>
+                        <Segment raised><h4>{s.name}</h4></Segment></Link>
                     )}
                     </Fragment>
                 }
